@@ -1,0 +1,16 @@
+# Array of messages
+messages=(
+  "\n\n✅ 🇬🇧 Your commit was successful! Make sure to take some breaks ☕\n\n✅ 🇫🇷 Ton commit a réussi ! Assure-toi de faire quelques pauses ☕\n\n"
+  "\n\n✅ 🇬🇧 Your code is in! You're on fire 🔥\n\n✅ 🇫🇷 Ton code est validé ! Tu es chaaaud bouillant 🔥\n\n"
+  "\n\n✅ 🇬🇧 Commit successful! And by the way, did you know the first ever website was published in 1991 by Tim Berners-Lee? 🌐\n\n✅ 🇫🇷 Commit réussi ! Et au fait, tu savais que le tout premier site web a été publié en 1991 par Tim Berners-Lee ? 🌐\n\n"
+  "\n\n✅ 🇬🇧 Code in! Remember to stay hydrated 💧\n\n✅ 🇫🇷 Code validé ! N'oublie pas de rester hydraté 💧\n\n"
+  "\n\n✅ 🇬🇧 Another commit in the bag! Don't forget to breathe 😌\n\n✅ 🇫🇷 Encore un commit de bouclé ! N'oublie pas de respirer 😌\n\n"
+  "\n\n✅ 🇬🇧 Your commit went through without a hitch! Time to grab a snack? ☕\n\n✅ 🇫🇷 Ton commit est passé sans problème ! Petit café ? ☕\n\n"
+  "\n\n✅ 🇬🇧 Your commit has been successfully added! Did you know that the term 'debugging' comes from an actual bug—a moth—found in a computer in 1947? 🐛\n\n✅ 🇫🇷 Ton commit a bien été ajouté ! Savais-tu que le terme 'debugging' vient d'un véritable insecte, un papillon de nuit, trouvé dans un ordinateur en 1947 ? 🐛\n\n"
+)
+
+# Pick a random message
+random_message=${messages[$RANDOM % ${#messages[@]}]}
+
+# Print the random message
+echo -e "\033[32m$random_message\033[0m"

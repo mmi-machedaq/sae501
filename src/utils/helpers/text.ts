@@ -1,0 +1,32 @@
+/**
+ ** Function to prevent breaking a line between two words
+ ** @param {string} text
+ ** @param {string} word1
+ ** @param {string} word2
+ ** @returns {string} text with non-breaking space
+ */
+export const addNonBreakingSpace = (
+  text: string,
+  word1: string,
+  word2: string,
+): string => {
+  const regex = new RegExp(`(${word1})\\s(${word2})`, 'i');
+  return text.replace(regex, `$1\u00A0$2`);
+};
+
+/**
+ ** Function to prevent breaking a line between specified pairs of words
+ ** @param {string} text - The original text
+ ** @param {[string, string][]} wordPairs - Array of word pairs to join with non-breaking spaces
+ ** @returns {string} text with non-breaking spaces between specified word pairs
+ */
+export const addNonBreakingSpaces = (
+  text: string,
+  wordPairs: [string, string][],
+): string => {
+  wordPairs.forEach(([word1, word2]) => {
+    const regex = new RegExp(`(${word1})\\s(${word2})`, 'gi');
+    text = text.replace(regex, `$1\u00A0$2`);
+  });
+  return text;
+};

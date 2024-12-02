@@ -1,0 +1,132 @@
+@use 'sass:color';
+@use '../../../base' as *;
+
+.button-primary {
+  @include flex(space-between, center, row);
+  position: relative;
+  width: 100%;
+  padding: $spacing-md $spacing-md;
+
+  border-radius: $border-radius-sm;
+  background-color: $primary-medium;
+  transition: background-color 0.6s $ease-in-out;
+
+  &:hover {
+    &.primary {
+      &--light {
+        background-color: $primary-medium;
+      }
+      &--dark {
+        background-color: $primary-darker;
+      }
+    }
+    &.secondary {
+      &--light {
+        background-color: $secondary-dark;
+
+        .button-primary__text {
+          color: $secondary-very-light;
+        }
+        .button-primary__icon {
+          fill: $secondary-very-light;
+        }
+      }
+      &--dark {
+        background-color: $secondary-darker;
+      }
+    }
+  }
+
+  &__text {
+    font-size: $fs-regular-lg;
+    font-family: $ff-serif;
+    font-style: italic;
+    color: $primary-dark;
+    transition: color 0.3s $ease-in-out;
+  }
+
+  &__icon {
+    position: absolute;
+    right: $spacing-md;
+
+    fill: $primary-dark;
+    width: 1.5rem;
+    height: auto;
+    transition:
+      transform 0.3s $ease-in-out,
+      fill 0.3s $ease-in-out;
+  }
+
+  * {
+    cursor: pointer;
+  }
+
+  &.primary {
+    &--light {
+      background-color: $primary-light;
+
+      .button-primary__text {
+        color: $primary-dark;
+      }
+      .button-primary__icon {
+        fill: $primary-dark;
+      }
+    }
+    &--dark {
+      background-color: $primary-dark;
+
+      .button-primary__text {
+        color: $white;
+      }
+      .button-primary__icon {
+        fill: $white;
+      }
+    }
+  }
+
+  &.secondary {
+    &--light {
+      background-color: $secondary-very-light;
+
+      .button-primary__text {
+        color: $secondary-darker;
+      }
+      .button-primary__icon {
+        fill: $secondary-darker;
+      }
+    }
+    &--dark {
+      background-color: $secondary-dark;
+
+      .button-primary__text {
+        color: $white;
+      }
+      .button-primary__icon {
+        fill: $white;
+      }
+    }
+  }
+
+  &.partner {
+    &--light {
+      background-color: $partner-light;
+
+      .button-primary__text {
+        color: $partner-dark;
+      }
+      .button-primary__icon {
+        fill: $partner-dark;
+      }
+    }
+    &--dark {
+      background-color: $partner-dark;
+
+      .button-primary__text {
+        color: $partner-very-light;
+      }
+      .button-primary__icon {
+        fill: $partner-very-light;
+      }
+    }
+  }
+}

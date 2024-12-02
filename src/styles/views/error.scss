@@ -1,0 +1,12 @@
+@use '../base' as *;
+
+.not-found {
+  h1 {
+    @include page-h1($blue-light-3, $blue);
+  }
+  &__body {
+    @include flex(center, center, column, 1.5rem);
+    margin-top: 2rem;
+    text-align: center;
+  }
+}

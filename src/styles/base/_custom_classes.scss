@@ -1,0 +1,19 @@
+@use './mixins' as *;
+
+/*
+ ** Container
+ */
+.container {
+  @include container;
+}
+
+/*
+ ** Text
+ */
+.bold,
+strong {
+  font-weight: 700;
+}
+.italic {
+  font-style: italic;
+}
