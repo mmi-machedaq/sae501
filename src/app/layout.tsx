@@ -6,7 +6,7 @@ import '../styles/global.scss';
 import { Gotham } from '@/fonts';
 
 export const metadata: Metadata = {
-  title: 'GIMS Immobilier',
+  title: 'SAE 501',
 };
 
 export const viewport: Viewport = {
@@ -17,9 +17,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='fr'>
-      <body className={Gotham.variable}>
-        {children}
-      </body>
+      <body className={Gotham.variable}>{children}</body>
     </html>
   );
 }
