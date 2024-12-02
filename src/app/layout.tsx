@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 import '../styles/global.scss';
 
-import { Gotham } from '@/fonts';
+import { Bambino } from '@/fonts';
 
 export const metadata: Metadata = {
   title: 'SAE 501',
@@ -17,7 +17,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='fr'>
-      <body className={Gotham.variable}>{children}</body>
+      <body className={Bambino.variable}>{children}</body>
     </html>
   );
 }

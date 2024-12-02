@@ -5,25 +5,25 @@
  */
 
 /* Primary Colors */
-$primary-very-light: #eaf5f0;
-$primary-light: #d2e8df;
-$primary-medium: #cae5d9;
-$primary-medium-dark: #86aa99;
-$primary-medium-darker: #709584;
-$primary-dark: #3c6251;
-$primary-darker: #325746;
+$primary-very-light: #91c3f2;
+$primary-light: #6db0ee;
+$primary-medium: #489cea;
+$primary-medium-dark: #2488e5;
+$primary-medium-darker: #1873c9;
+$primary-dark: #135ea4;
+$primary-darker: #0d3f6d;
 
 /* Secondary Colors */
-$secondary-very-light: #fff7f0;
-$secondary-light: #ffaf74;
-$secondary-medium: #e39d69;
-$secondary-dark: #d58c56;
-$secondary-darker: #ce7b3b;
-$secondary-very-darker: #814611;
+$secondary-very-light: #fcf7ee;
+$secondary-light: #f6e7cb;
+$secondary-medium: #edcf97;
+$secondary-dark: #d09425;
+$secondary-darker: #bf8822;
+$secondary-very-darker: #ad7b1f;
 
 /* Neutrals */
-$black: #000000;
-$white: #ffffff;
+$black: #1f1607;
+$white: #eef6fd;
 
 /* Grays */
 $grey-orange: #faf1eb;
@@ -45,11 +45,10 @@ $base-bg-color: $white;
  ** ====================================================
  */
 
-$ff-literata: var(--font-family-literata), serif;
-$ff-gotham: var(--font-family-gotham), sans-serif;
+$ff-bambino: var(--font-family-bambino), sans-serif;
 
-$ff-serif: $ff-literata;
-$ff-sans-serif: $ff-gotham;
+$ff-serif: $ff-bambino;
+$ff-sans-serif: $ff-bambino;
 
 $base-font-family: $ff-sans-serif;
 
