@@ -1,0 +1,10 @@
+[
+  {
+    "slug": "pong",
+    "name": "Pong"
+  },
+  {
+    "slug": "pacman",
+    "name": "Pacman"
+  }
+]

@@ -1,12 +1,14 @@
 'use server';
 
-import * as React from 'react';
+import React from 'react';
 
 import '@/styles/views/pages/home.scss';
 
+import games from '@/data/games.json';
+
 import Logo from '~/icons/logo.svg';
 
-export default async function Home() {
+export default async function GameChoice() {
   return (
     <main>
       <div className='brc-background'></div>
@@ -14,9 +16,12 @@ export default async function Home() {
         <div className='brc-logo'>
           <Logo />
         </div>
-        <div className='brc-buttons-box'>
-          <button className='brc-buttons pong'>pong</button>
-          <button className='brc-buttons pac-man'>pac-man</button>
+        <div className='brc-buttons-box game-choice'>
+          {games.map((game, index) => (
+            <button className={`brc-buttons ${game.name}`} key={index}>
+              {game.name}
+            </button>
+          ))}
         </div>
         <div className='brc-footer'>
           <p>

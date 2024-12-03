@@ -1,0 +1,18 @@
+{
+  "lastUpdate": "",
+  "secondLastUpdate": "",
+  "drinks": [
+    {
+      "id": 1,
+      "name": "Rhum"
+    },
+    {
+      "id": 2,
+      "name": "Jus de citron vert"
+    },
+    {
+      "id": 3,
+      "name": "Jus d'orange"
+    }
+  ]
+}

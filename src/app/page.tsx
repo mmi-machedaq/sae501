@@ -1,8 +1,10 @@
 'use server';
 
-import * as React from 'react';
+import React from 'react';
 
 import '@/styles/views/pages/home.scss';
+
+import cocktails from '@/data/cocktails.json';
 
 import Logo from '~/icons/logo.svg';
 
@@ -15,12 +17,11 @@ export default async function Home() {
           <Logo />
         </div>
         <div className='brc-buttons-box'>
-          <button className='brc-buttons tequila'>tequila</button>
-          <button className='brc-buttons margarita'>margarita</button>
-          <button className='brc-buttons paloma'>paloma</button>
-          <button className='brc-buttons mojito'>mojito</button>
-          <button className='brc-buttons aviation'>aviation</button>
-          <button className='brc-buttons paper-lane'>paper plane</button>
+          {cocktails.map((cocktail, index) => (
+            <button className={`brc-buttons ${cocktail.name}`} key={index}>
+              {cocktail.name}
+            </button>
+          ))}
         </div>
         <div className='brc-footer'>
           <p>
