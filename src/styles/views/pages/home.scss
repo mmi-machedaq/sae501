@@ -6,7 +6,7 @@ main {
   font-family: $ff-bambino;
   color: $black;
 
-  .background {
+  .brc-background {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -20,42 +20,64 @@ main {
       inset -50px -50px 75px #dadcdf,
       inset 50px 50px 75px #ffffff;
   }
-  .barcade-container {
+  .brc-container {
     @include flex(space-between, center, column, 1rem);
     height: 100vh;
 
-    .barcade-logo {
+    .brc-logo {
       @include flex(center, center, column, 1rem);
       padding: 2.5rem;
       svg {
         width: 500px;
       }
     }
-    .barcade-buttons-box {
-      @include grid(center, center, 3, 2, 50px);
+    .brc-buttons-box {
+      @include grid(center, center, 12, auto, 50px);
 
-      .barcade-buttons {
+      .brc-buttons {
         font-size: $fs-lg-md;
         font-weight: $fw-light;
 
-        height: 80px;
-        width: 225px;
+        height: 90px;
+        width: 250px;
         border-radius: 20px;
+
         background-color: $white;
         box-shadow:
           5px 5px 10px #dadcdf,
           -5px -5px 10px #ffffff;
 
-        transition: all 0.3s $ease-in-out;
+        transition: all 0.3s ease-in-out;
       }
-      .barcade-buttons:hover {
+      .brc-buttons:hover {
         box-shadow:
           inset 5px 5px 10px #dadcdf,
           inset -5px -5px 10px #ffffff;
       }
+
+      .tequila,
+      .mojito {
+        grid-column: 2/5;
+      }
+      .margarita,
+      .aviation {
+        grid-column: 5/8;
+      }
+      .paloma,
+      .paper-lane {
+        grid-column: 8/13;
+      }
+
+      .pong {
+        grid-column: 4/7;
+      }
+
+      .pac-man {
+        grid-column: 7/10;
+      }
     }
 
-    .barcade-footer {
+    .brc-footer {
       font-size: $fs-lg;
       font-weight: $fw-light;
       padding: 10px;

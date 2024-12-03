@@ -15,12 +15,8 @@ export default async function Home() {
           <Logo />
         </div>
         <div className='brc-buttons-box'>
-          <button className='brc-buttons tequila'>tequila</button>
-          <button className='brc-buttons margarita'>margarita</button>
-          <button className='brc-buttons paloma'>paloma</button>
-          <button className='brc-buttons mojito'>mojito</button>
-          <button className='brc-buttons aviation'>aviation</button>
-          <button className='brc-buttons paper-lane'>paper plane</button>
+          <button className='brc-buttons pong'>pong</button>
+          <button className='brc-buttons pac-man'>pac-man</button>
         </div>
         <div className='brc-footer'>
           <p>
