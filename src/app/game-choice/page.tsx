@@ -1,6 +1,8 @@
-'use server';
+'use client';
 
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import slugify from 'slugify';
 
 import '@/styles/views/pages/home.scss';
 
@@ -8,7 +10,23 @@ import games from '@/data/games.json';
 
 import Logo from '~/icons/logo.svg';
 
-export default async function GameChoice() {
+export default function GameChoice() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (
+      !localStorage.getItem('cocktail') ||
+      localStorage.getItem('cocktail') === 'undefined'
+    ) {
+      router.push('/');
+    }
+  }, [router]);
+
+  const handleGameChoice = (game: string) => {
+    localStorage.setItem('game', game);
+    router.push(`/games/${game}`);
+  };
+
   return (
     <main>
       <div className='brc-background'></div>
@@ -18,7 +36,13 @@ export default async function GameChoice() {
         </div>
         <div className='brc-buttons-box game-choice'>
           {games.map((game, index) => (
-            <button className={`brc-buttons ${game.name}`} key={index}>
+            <button
+              onClick={() =>
+                handleGameChoice(slugify(game.name, { lower: true }))
+              }
+              className={`brc-buttons ${slugify(game.name, { lower: true })}`}
+              key={index}
+            >
               {game.name}
             </button>
           ))}
