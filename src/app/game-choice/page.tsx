@@ -47,6 +47,9 @@ export default function GameChoice() {
             </button>
           ))}
         </div>
+        <div className='brc-drink-info'>
+          <p>Vous jouerez pour : {localStorage.getItem('cocktail')} </p>
+        </div>
         <div className='brc-footer'>
           <p>
             L'abus d'alcool est dangereux pour la santé, à consommer avec

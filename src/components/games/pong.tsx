@@ -183,7 +183,7 @@ const Pong = () => {
         clearInterval(timerInterval!); // Stop the timer
         setGameEnded(true);
         storeScores();
-        router.push('/serve-drinks');
+        router.push('/serve-drinks-1');
       }
     };
 
