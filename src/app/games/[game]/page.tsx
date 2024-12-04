@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import slugify from 'slugify';
 
+import '@/styles/views/pages/game.scss';
+
 import games from '@/data/games.json';
 
 const GamePage = () => {
@@ -32,7 +34,11 @@ const GamePage = () => {
     const Game = dynamic(() => import(`@/components/games/${game}.tsx`), {
       ssr: false,
     });
-    return <Game />;
+    return (
+      <div className='game'>
+        <Game />
+      </div>
+    );
   }
 };
 

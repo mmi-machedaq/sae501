@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { FaGlassMartiniAlt } from 'react-icons/fa';
 
 import '@/styles/views/pages/home.scss';
 
@@ -24,7 +25,9 @@ export default function ServeDrinks() {
         <div className='brc-buttons-box'>
           <button className='brc-buttons liquide-btn' onClick={handleClick}>
             <div className='water-ctr'>
-              Remplir
+              <p>
+                <FaGlassMartiniAlt /> Remplir
+              </p>
               <div className={`water ${isCupFilled ? 'active' : ''}`}></div>
             </div>
           </button>

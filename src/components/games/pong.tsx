@@ -9,6 +9,8 @@ declare global {
   }
 }
 
+const TIME_LIMIT = 60;
+
 const Pong = () => {
   const router = useRouter();
   const [gameEnded, setGameEnded] = useState(false);
@@ -49,7 +51,7 @@ const Pong = () => {
     let player2Score = 0;
 
     // Timer variables
-    let timeRemaining = 2; // 2 minutes in seconds
+    let timeRemaining = TIME_LIMIT;
     let timerInterval: NodeJS.Timeout | null = null;
 
     // Handle keyboard controls
