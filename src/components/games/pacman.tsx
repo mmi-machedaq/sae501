@@ -1,10 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 type Position = { x: number; y: number };
 
 const Pacman = () => {
+  const router = useRouter();
   // Références pour le canvas
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -41,6 +43,9 @@ const Pacman = () => {
   const [points, setPoints] = useState<Position[]>([]);
   const [score, setScore] = useState({ player1: 0, player2: 0 });
 
+  const [gameStarted, setGameStarted] = useState(false);
+  const [gameEnded, setGameEnded] = useState(false);
+
   // Génération du labyrinthe
   const generateMaze = useCallback((): number[][] => {
     const rows = Math.floor(canvasHeight / gridSize);
@@ -67,8 +72,8 @@ const Pacman = () => {
           ny < rows &&
           newMaze[nx][ny] === 1
         ) {
-          newMaze[x + dir.x][y + dir.y] = 0;
-          newMaze[nx][ny] = 0;
+          newMaze[x + dir.x][y + dir.y] = 0; // Casser le mur
+          newMaze[nx][ny] = 0; // Casser le mur adjacent
           carvePath(nx, ny);
         }
       }
@@ -77,6 +82,31 @@ const Pacman = () => {
     // Point de départ
     newMaze[1][1] = 0;
     carvePath(1, 1);
+
+    // Ajout de ponts entre les chemins
+    const addBridges = (maze: number[][], bridgeCount: number) => {
+      let addedBridges = 0;
+
+      while (addedBridges < bridgeCount) {
+        // Sélection aléatoire d'un mur potentiel
+        const x = Math.floor(Math.random() * cols);
+        const y = Math.floor(Math.random() * rows);
+
+        // Vérifier que c'est un mur et qu'il connecte deux couloirs
+        if (
+          maze[x][y] === 1 &&
+          ((maze[x - 1]?.[y] === 0 && maze[x + 1]?.[y] === 0) || // Vertical
+            (maze[x]?.[y - 1] === 0 && maze[x]?.[y + 1] === 0)) // Horizontal
+        ) {
+          maze[x][y] = 0; // Supprimer le mur pour créer un pont
+          addedBridges++;
+        }
+      }
+    };
+
+    // Ajoute des ponts après la génération
+    const bridgeCount = Math.floor((rows * cols) / 20); // Nombre de ponts basé sur la taille du labyrinthe
+    addBridges(newMaze, bridgeCount);
 
     // Vérification de la connexion complète
     if (!isMazeFullyConnected(newMaze)) {
@@ -190,10 +220,15 @@ const Pacman = () => {
       const canMoveX = !checkCollision(nextX, prev.y, maze, currentHalfSizeP1);
       const canMoveY = !checkCollision(prev.x, nextY, maze, currentHalfSizeP1);
 
+      // Si collision, résoudre l'emplacement
+      const { x, y } = checkCollision(prev.x, prev.y, maze, currentHalfSizeP1)
+        ? resolveOverlap(prev.x, prev.y, maze, currentHalfSizeP1)
+        : { x: prev.x, y: prev.y };
+
       return {
         ...prev,
-        x: canMoveX ? nextX : prev.x,
-        y: canMoveY ? nextY : prev.y,
+        x: canMoveX ? nextX : x,
+        y: canMoveY ? nextY : y,
       };
     });
 
@@ -204,10 +239,15 @@ const Pacman = () => {
       const canMoveX = !checkCollision(nextX, prev.y, maze, currentHalfSizeP2);
       const canMoveY = !checkCollision(prev.x, nextY, maze, currentHalfSizeP2);
 
+      // Si collision, résoudre l'emplacement
+      const { x, y } = checkCollision(prev.x, prev.y, maze, currentHalfSizeP2)
+        ? resolveOverlap(prev.x, prev.y, maze, currentHalfSizeP2)
+        : { x: prev.x, y: prev.y };
+
       return {
         ...prev,
-        x: canMoveX ? nextX : prev.x,
-        y: canMoveY ? nextY : prev.y,
+        x: canMoveX ? nextX : x,
+        y: canMoveY ? nextY : y,
       };
     });
   }, [maze, pacmanSpeed, currentHalfSizeP1, currentHalfSizeP2]);
@@ -226,7 +266,7 @@ const Pacman = () => {
 
         let pointCollected = false;
 
-        if (distanceToPacman1 < pacmanSize / 2) {
+        if (distanceToPacman1 < pacmanSize / 1.5) {
           setScore((prevScore) => ({
             ...prevScore,
             player1: prevScore.player1 + 1,
@@ -234,7 +274,7 @@ const Pacman = () => {
           pointCollected = true;
         }
 
-        if (distanceToPacman2 < pacmanSize / 2) {
+        if (distanceToPacman2 < pacmanSize / 1.5) {
           setScore((prevScore) => ({
             ...prevScore,
             player2: prevScore.player2 + 1,
@@ -247,7 +287,7 @@ const Pacman = () => {
 
       return remainingPoints;
     });
-  }, [pacman1, pacman2, pacmanSize]);
+  }, [pacman1.x, pacman1.y, pacman2.x, pacman2.y]);
 
   const checkCollision = (
     x: number,
@@ -269,6 +309,69 @@ const Pacman = () => {
 
     return false;
   };
+
+  const resolveOverlap = (
+    x: number,
+    y: number,
+    maze: number[][],
+    currentHalfSize: number,
+  ): Position => {
+    const left = Math.floor((x - currentHalfSize) / gridSize);
+    const right = Math.floor((x + currentHalfSize) / gridSize);
+    const top = Math.floor((y - currentHalfSize) / gridSize);
+    const bottom = Math.floor((y + currentHalfSize) / gridSize);
+
+    // Repositionner dans un couloir libre
+    if (maze[left]?.[top] === 0)
+      return {
+        x: left * gridSize + gridSize / 2,
+        y: top * gridSize + gridSize / 2,
+      };
+    if (maze[right]?.[top] === 0)
+      return {
+        x: right * gridSize + gridSize / 2,
+        y: top * gridSize + gridSize / 2,
+      };
+    if (maze[left]?.[bottom] === 0)
+      return {
+        x: left * gridSize + gridSize / 2,
+        y: bottom * gridSize + gridSize / 2,
+      };
+    if (maze[right]?.[bottom] === 0)
+      return {
+        x: right * gridSize + gridSize / 2,
+        y: bottom * gridSize + gridSize / 2,
+      };
+
+    // Si aucune position valide trouvée, retourner la position actuelle (cas extrême)
+    return { x, y };
+  };
+
+  // Appeler cette fonction lorsque le jeu commence
+  const startGame = () => {
+    setGameStarted(true);
+  };
+
+  // Vérification de fin de partie
+  const checkGameEnd = useCallback(() => {
+    if (
+      score.player1 !== 0 &&
+      score.player2 !== 0 &&
+      gameStarted &&
+      points.length === 0 &&
+      !gameEnded
+    ) {
+      setGameEnded(true);
+      router.push('/serve-drinks'); // Redirection en cas de victoire
+    }
+  }, [
+    score.player1,
+    score.player2,
+    gameStarted,
+    points.length,
+    gameEnded,
+    router,
+  ]);
 
   // Dessine le jeu
   const drawGame = useCallback(() => {
@@ -409,10 +512,12 @@ const Pacman = () => {
       updatePacmanPosition();
       checkPointsCollection();
       drawGame();
+      startGame();
+      checkGameEnd();
     }, 1000 / 60); // 60 FPS
 
     return () => clearInterval(interval);
-  }, [updatePacmanPosition, checkPointsCollection, drawGame]); // Utiliser uniquement des fonctions stables
+  }, [updatePacmanPosition, checkPointsCollection, drawGame, checkGameEnd]); // Utiliser uniquement des fonctions stables
 
   // Gestion des événements de clavier
   useEffect(() => {
