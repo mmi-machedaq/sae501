@@ -49,7 +49,7 @@ const Pong = () => {
     let player2Score = 0;
 
     // Timer variables
-    let timeRemaining = 2; // 2 minutes in seconds
+    let timeRemaining = 30; // 2 minutes in seconds
     let timerInterval: NodeJS.Timeout | null = null;
 
     // Handle keyboard controls

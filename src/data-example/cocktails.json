@@ -1,26 +1,26 @@
 [
   {
-    "name": "Tequila",
+    "name": "Vodka Shot",
+    "ingredients": [1]
+  },
+  {
+    "name": "Cape Codder",
+    "ingredients": [1, 2]
+  },
+  {
+    "name": "Screwdiver",
+    "ingredients": [1, 3]
+  },
+  {
+    "name": "Sex on the Beach",
     "ingredients": [1, 2, 3]
   },
   {
-    "name": "Margarita",
-    "ingredients": [1, 2, 3]
+    "name": "Virgin Mimosa",
+    "ingredients": [2, 3]
   },
   {
-    "name": "Paloma",
-    "ingredients": [1, 2, 3]
-  },
-  {
-    "name": "Mojito",
-    "ingredients": [1, 2, 3]
-  },
-  {
-    "name": "Pina Colada",
-    "ingredients": [1, 2, 3]
-  },
-  {
-    "name": "Daiquiri",
-    "ingredients": [1, 2, 3]
+    "name": "Jus d'orange",
+    "ingredients": [3]
   }
 ]
