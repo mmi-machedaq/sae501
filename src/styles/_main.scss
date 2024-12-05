@@ -93,25 +93,6 @@ h3 {
   line-height: 1;
 }
 
-/*
-* Score 
-*/
-
-.score {
-  display: flex; // Active le mode flexbox
-  width: 800px;
-  justify-content: space-between; // Centre les éléments horizontalement
-  align-items: center; // Centre les éléments verticalement (si besoin)
-  margin-bottom: 1rem; // Ajoute un peu d'espace au-dessous
-  margin: auto;
-}
-
-.score p {
-  margin: 1rem; // Supprime les marges par défaut
-  font-size: 1.5rem; // Taille de texte adaptée
-  color: #333; // Couleur personnalisée
-}
-
 a {
   color: $base-color;
   text-decoration: none;
@@ -150,20 +131,6 @@ button {
   cursor: pointer;
   display: inline-block;
   text-align: center;
-}
-
-/*
- ** Canvas jeu vidéo
- */
-canvas {
-  display: block; // Évite les marges ajoutées par défaut
-  margin: auto; // Assure l'alignement horizontal
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%; // Ajuste la taille si nécessaire
-  height: auto; // Maintient les proportions
 }
 
 /*
