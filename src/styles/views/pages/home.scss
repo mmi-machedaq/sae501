@@ -29,7 +29,13 @@ main {
     h2 {
       font-size: $fs-xxl;
       font-weight: $fw-light;
-      margin-bottom: $spacing-huge-xs;
+      margin-bottom: $spacing-md;
+      text-align: center;
+    }
+    h3 {
+      font-size: $fs-lg-md;
+      font-weight: $fw-light;
+      margin-bottom: $spacing-md;
       max-width: 1200px;
       text-align: center;
     }

@@ -26,10 +26,12 @@ export default function Bonus() {
     <main>
       <div className='brc-background'></div>
       <div className='brc-filling-container'>
-        <h2>{randomPhrase || 'Chargement...'}</h2>
+        <h2>On relance les cartes :</h2>
+        <h3>{randomPhrase || 'Chargement...'}</h3>
         <div className='brc-buttons-box'>
-          <button className='brc-buttons liquide-btn' onClick={handleClick}>
-            <MdAutorenew /> Nouvelle partie
+          <button className='brc-buttons' onClick={handleClick}>
+            <MdAutorenew />
+            Nouvelle partie
           </button>
         </div>
       </div>
