@@ -15,6 +15,10 @@ const Pacman = () => {
   const pacmanSize = 20;
   const pacmanSpeed = 10;
 
+  // États pour gérer la taille des Pacmans
+  const [currentHalfSizeP1, setCurrentHalfSizeP1] = useState(pacmanSize / 1.75); // Initiale
+  const [currentHalfSizeP2, setCurrentHalfSizeP2] = useState(pacmanSize / 1.75); // Initiale
+
   // État pour les entités
   const [maze, setMaze] = useState<number[][]>([]);
   const [pacman1, setPacman1] = useState<
@@ -80,7 +84,7 @@ const Pacman = () => {
     }
 
     return newMaze;
-  }, []);
+  }, []); // Stable grâce à useCallback
 
   // Vérifie la connexion complète du labyrinthe
   const isMazeFullyConnected = (maze: number[][]): boolean => {
@@ -149,50 +153,43 @@ const Pacman = () => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const generatePoints = (maze: number[][], count: number): Position[] => {
-    const points: Position[] = [];
+  const generatePoints = useCallback(
+    (maze: number[][], count: number): Position[] => {
+      const points: Position[] = [];
 
-    // Helper function to check if a point is too close to Pacman positions or already exists in the points array
-    const isValidPosition = (x: number, y: number): boolean => {
-      // Check if the point is too close to Pacman1 or Pacman2
-      const distanceToPacman1 = Math.hypot(x - pacman1.x, y - pacman1.y);
-      const distanceToPacman2 = Math.hypot(x - pacman2.x, y - pacman2.y);
+      const isValidPosition = (x: number, y: number): boolean => {
+        const distanceToPacman1 = Math.hypot(x - pacman1.x, y - pacman1.y);
+        const distanceToPacman2 = Math.hypot(x - pacman2.x, y - pacman2.y);
 
-      if (distanceToPacman1 < pacmanSize || distanceToPacman2 < pacmanSize) {
-        return false; // Too close to Pacman
+        if (distanceToPacman1 < pacmanSize || distanceToPacman2 < pacmanSize) {
+          return false; // Trop proche de Pac-Man
+        }
+
+        return !points.some((point) => point.x === x && point.y === y);
+      };
+
+      for (let i = 0; i < count; i++) {
+        let newPoint: Position;
+        do {
+          newPoint = getRandomFreePosition(maze);
+        } while (!isValidPosition(newPoint.x, newPoint.y));
+
+        points.push(newPoint);
       }
 
-      // Check if the point already exists in the points array
-      return !points.some((point) => point.x === x && point.y === y);
-    };
+      return points;
+    },
+    [pacman1.x, pacman1.y, pacman2.x, pacman2.y], // Dépend des positions de Pac-Man
+  );
 
-    // Generate points
-    for (let i = 0; i < count; i++) {
-      let newPoint: Position;
-
-      // Keep generating points until a valid one is found
-      do {
-        newPoint = getRandomFreePosition(maze); // Get a random free position
-      } while (!isValidPosition(newPoint.x, newPoint.y));
-
-      points.push(newPoint);
-    }
-
-    return points;
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const updatePacmanPosition = () => {
+  const updatePacmanPosition = useCallback(() => {
     setPacman1((prev) => {
       const nextX = prev.x + prev.dirX * pacmanSpeed;
       const nextY = prev.y + prev.dirY * pacmanSpeed;
 
-      // Vérifie les collisions avec les murs du labyrinthe
       const canMoveX = !checkCollision(nextX, prev.y, maze, currentHalfSizeP1);
       const canMoveY = !checkCollision(prev.x, nextY, maze, currentHalfSizeP1);
 
-      // Mise à jour de la position en fonction des collisions
       return {
         ...prev,
         x: canMoveX ? nextX : prev.x,
@@ -204,7 +201,6 @@ const Pacman = () => {
       const nextX = prev.x + prev.dirX * pacmanSpeed;
       const nextY = prev.y + prev.dirY * pacmanSpeed;
 
-      // Vérifie les collisions avec les murs du labyrinthe
       const canMoveX = !checkCollision(nextX, prev.y, maze, currentHalfSizeP2);
       const canMoveY = !checkCollision(prev.x, nextY, maze, currentHalfSizeP2);
 
@@ -214,10 +210,9 @@ const Pacman = () => {
         y: canMoveY ? nextY : prev.y,
       };
     });
-  };
+  }, [maze, pacmanSpeed, currentHalfSizeP1, currentHalfSizeP2]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const checkPointsCollection = () => {
+  const checkPointsCollection = useCallback(() => {
     setPoints((prevPoints) => {
       const remainingPoints = prevPoints.filter((point) => {
         const distanceToPacman1 = Math.hypot(
@@ -231,30 +226,28 @@ const Pacman = () => {
 
         let pointCollected = false;
 
-        // Si Pac-Man 1 collecte un point
         if (distanceToPacman1 < pacmanSize / 2) {
           setScore((prevScore) => ({
             ...prevScore,
             player1: prevScore.player1 + 1,
           }));
-          pointCollected = true; // Marquer le point comme collecté
+          pointCollected = true;
         }
 
-        // Si Pac-Man 2 collecte un point
         if (distanceToPacman2 < pacmanSize / 2) {
           setScore((prevScore) => ({
             ...prevScore,
             player2: prevScore.player2 + 1,
           }));
-          pointCollected = true; // Marquer le point comme collecté
+          pointCollected = true;
         }
 
-        return !pointCollected; // Retirer le point collecté
+        return !pointCollected;
       });
 
       return remainingPoints;
     });
-  };
+  }, [pacman1, pacman2, pacmanSize]);
 
   const checkCollision = (
     x: number,
@@ -278,15 +271,13 @@ const Pacman = () => {
   };
 
   // Dessine le jeu
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const drawGame = () => {
+  const drawGame = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Efface le canvas à chaque frame
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     // Dessiner le labyrinthe
@@ -318,17 +309,7 @@ const Pacman = () => {
     ctx.beginPath();
     ctx.arc(pacman2.x, pacman2.y, currentHalfSizeP2 * 1.75, 0, Math.PI * 2);
     ctx.fill();
-
-    // Dessiner le score
-    ctx.fillStyle = '#f5f5f5';
-    ctx.font = '20px Bambino';
-    ctx.fillText(`P1 Score: ${score.player1 / 2}`, 50, 30);
-    ctx.fillText(`P2 Score: ${score.player2 / 2}`, canvasWidth - 150, 30);
-  };
-
-  // États pour gérer la taille des Pacmans
-  const [currentHalfSizeP1, setCurrentHalfSizeP1] = useState(pacmanSize / 1.75); // Initiale
-  const [currentHalfSizeP2, setCurrentHalfSizeP2] = useState(pacmanSize / 1.75); // Initiale
+  }, [maze, points, pacman1, pacman2, currentHalfSizeP1, currentHalfSizeP2]);
 
   // Gestion des touches
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -402,24 +383,25 @@ const Pacman = () => {
     setMaze(newMaze);
 
     const pacman1StartPosition = getFreePositionInColumn(newMaze, 2); // Colonne 2 pour le joueur 1
-    setPacman1(() => ({
+    setPacman1({
       ...pacman1StartPosition,
       dirX: 0,
       dirY: 0,
-    }));
+    });
 
     const pacman2StartPosition = getFreePositionInColumn(
       newMaze,
       newMaze.length - 2,
     ); // Avant-dernière colonne pour le joueur 2
-    setPacman2(() => ({
+    setPacman2({
       ...pacman2StartPosition,
       dirX: 0,
       dirY: 0,
-    }));
+    });
 
-    setPoints(generatePoints(newMaze, 39)); // 39 points (impair pour choisir un gagnant) à générer
-  }, [generateMaze, generatePoints]);
+    setPoints(generatePoints(newMaze, 39)); // 39 points à générer
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Exécuter une seule fois
 
   // Utilisation du cycle de jeu
   useEffect(() => {
@@ -430,15 +412,7 @@ const Pacman = () => {
     }, 1000 / 60); // 60 FPS
 
     return () => clearInterval(interval);
-  }, [
-    checkPointsCollection,
-    drawGame,
-    pacman1,
-    pacman2,
-    points,
-    score,
-    updatePacmanPosition,
-  ]);
+  }, [updatePacmanPosition, checkPointsCollection, drawGame]); // Utiliser uniquement des fonctions stables
 
   // Gestion des événements de clavier
   useEffect(() => {
@@ -453,6 +427,10 @@ const Pacman = () => {
 
   return (
     <div>
+      <div className='score'>
+        <p>P1 Score: {score.player1 * 5}</p>
+        <p>P2 Score: {score.player2 * 5}</p>
+      </div>
       <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} />
     </div>
   );
