@@ -9,6 +9,8 @@ declare global {
   }
 }
 
+const TIME_LIMIT = 60;
+
 const Pong = () => {
   const router = useRouter();
   const [gameEnded, setGameEnded] = useState(false);
@@ -52,9 +54,9 @@ const Pong = () => {
     let player2Score = 0;
 
     // Timer variables
-    let timeRemaining = 30; // 2 minutes in seconds
+    let timeRemaining = TIME_LIMIT;
     let timerInterval: NodeJS.Timeout | null = null;
-    let isOvertime = false;
+    const isOvertime = false;
 
     // Handle keyboard controls
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -171,17 +173,10 @@ const Pong = () => {
     // Check for game end
     const checkGameEnd = () => {
       if (timeRemaining <= 0 && !gameEnded) {
-        if (player1Score === player2Score) {
-          // Activer la prolongation si égalité
-          isOvertime = true;
-          setGameEnded(false); // Continuer la partie
-        } else {
-          // Fin du jeu si pas d'égalité
-          clearInterval(timerInterval!); // Stop the timer
-          setGameEnded(true);
-          storeScores();
-          router.push('/serve-drinks');
-        }
+        clearInterval(timerInterval!); // Stop the timer
+        setGameEnded(true);
+        storeScores();
+        router.push('/serve-drinks');
       }
     };
 

@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+import { LiaCocktailSolid } from 'react-icons/lia';
 import slugify from 'slugify';
 
 import '@/styles/views/pages/home.scss';
@@ -46,6 +47,12 @@ export default function GameChoice() {
               {game.name}
             </button>
           ))}
+        </div>
+        <div className='brc-drink-info'>
+          <p>
+            <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
+          </p>
+          <span>Cocktail choisi</span>
         </div>
         <div className='brc-footer'>
           <p>
