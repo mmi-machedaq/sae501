@@ -489,7 +489,7 @@ const Pacman = () => {
       dirY: 0,
     });
 
-    setPoints(generatePoints(newMaze, 9)); // 39 points à générer
+    setPoints(generatePoints(newMaze, 39)); // 39 points à générer
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Exécuter une seule fois
 
