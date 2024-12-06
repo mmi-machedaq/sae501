@@ -3,11 +3,59 @@
 
 .game {
   @include flex(center, center, column);
-  width: 100%;
-  height: 100vh;
+  padding: 1rem; // Ajoute un peu d'espace autour
+  align-items: center; // Centre les éléments verticalement
+}
 
-  > *,
-  * {
-    width: 100%;
+/*
+ * Score 
+ */
+.score {
+  display: flex; // Active le mode flexbox
+  width: 100%; // Utilise 100% de la largeur disponible
+  max-width: 1000px; // Limite la largeur pour écrans larges
+  justify-content: space-between; // Espace entre les scores
+  align-items: center; // Centre les éléments verticalement
+  margin-bottom: 60rem; // Ajoute un espace sous le score
+  margin: auto;
+
+  // Styles pour écrans plus petits
+  @media (max-width: 768px) {
+    text-align: center; // Centre le texte
+    gap: 1rem; // Ajoute de l'espace entre les éléments
+  }
+}
+
+.score p {
+  margin: 1rem; // Ajoute un espacement autour des scores
+  font-size: 1.5rem; // Taille de texte pour écrans normaux
+  color: $black; // Couleur personnalisée
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem; // Réduit la taille sur petits écrans
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem; // Encore plus petit pour très petits écrans
+  }
+}
+
+/*
+ ** Canvas jeu vidéo
+ */
+canvas {
+  display: block; // Évite les marges ajoutées par défaut
+  margin: auto; // Centrage horizontal
+  width: 90%; // Ajuste la largeur du canvas
+  height: auto; // Maintient les proportions
+  border: #0d3f6d;
+
+  // Ajustement pour petits écrans
+  @media (max-width: 768px) {
+    width: 80%; // Plus large sur petits écrans
+  }
+
+  @media (max-width: 480px) {
+    width: 90%; // Presque plein écran pour très petits écrans
   }
 }

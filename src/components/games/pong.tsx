@@ -15,6 +15,9 @@ const Pong = () => {
   const router = useRouter();
   const [gameEnded, setGameEnded] = useState(false);
 
+  const [score, setScore] = useState({ player1: 0, player2: 0 });
+  const [timer, setTimer] = useState({ timerdisplay: 0 });
+
   useEffect(() => {
     const canvas = document.getElementById('pongCanvas') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -53,6 +56,7 @@ const Pong = () => {
     // Timer variables
     let timeRemaining = TIME_LIMIT;
     let timerInterval: NodeJS.Timeout | null = null;
+    let isOvertime = false;
 
     // Handle keyboard controls
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -134,15 +138,17 @@ const Pong = () => {
     const resetBall = () => {
       ballX = canvasWidth / 2;
       ballY = canvasHeight / 2;
-      ballSpeedX = initialBallSpeed * (Math.random() > 0.5 ? 1 : -1);
-      ballSpeedY = initialBallSpeed * (Math.random() > 0.5 ? 1 : -1);
+      if (!isOvertime) {
+        ballSpeedX = initialBallSpeed * (Math.random() > 0.5 ? 1 : -1);
+        ballSpeedY = initialBallSpeed * (Math.random() > 0.5 ? 1 : -1);
+      }
     };
 
     // Draw field
     const drawField = () => {
-      ctx.fillStyle = '#523B0F';
+      ctx.fillStyle = '#DAECFB';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-      ctx.strokeStyle = '#f5f5f5';
+      ctx.strokeStyle = '#6A6760';
       ctx.setLineDash([5, 5]);
       ctx.beginPath();
       ctx.moveTo(canvasWidth / 2, 0);
@@ -152,40 +158,28 @@ const Pong = () => {
 
     // Draw paddle
     const drawPaddle = (x: number, y: number) => {
-      ctx.fillStyle = '#f5f5f5';
+      ctx.fillStyle = '#1f1607';
       ctx.fillRect(x, y, paddleWidth, paddleHeight);
     };
 
     // Draw ball
     const drawBall = (x: number, y: number) => {
-      ctx.fillStyle = '#f5f5f5';
+      ctx.fillStyle = '#1f1607';
       ctx.beginPath();
       ctx.arc(x, y, 8, 0, Math.PI * 2);
       ctx.fill();
     };
 
-    // Draw scores
-    const drawScores = () => {
-      ctx.fillStyle = '#f5f5f5';
-      ctx.font = '20px Bambino';
-      ctx.fillText(`P1 Score: ${player1Score}`, 50, 30);
-      ctx.fillText(`P2 Score: ${player2Score}`, canvasWidth - 150, 30);
-    };
-
-    // Draw timer
-    const drawTimer = () => {
-      ctx.fillStyle = '#f5f5f5';
-      ctx.font = '20px Bambino';
-      ctx.fillText(`Time: ${timeRemaining}s`, canvasWidth / 2 - 50, 30);
-    };
-
     // Check for game end
     const checkGameEnd = () => {
       if (timeRemaining <= 0 && !gameEnded) {
-        clearInterval(timerInterval!); // Stop the timer
-        setGameEnded(true);
-        storeScores();
-        router.push('/serve-drinks-1');
+        isOvertime = true;
+        if (player1Score !== player2Score) {
+          clearInterval(timerInterval!); // Stop the timer
+          setGameEnded(true);
+          storeScores();
+          router.push('/serve-drinks-1');
+        }
       }
     };
 
@@ -193,6 +187,16 @@ const Pong = () => {
     const storeScores = () => {
       localStorage.setItem('player1Score', player1Score.toString());
       localStorage.setItem('player2Score', player2Score.toString());
+    };
+
+    // Gérer les scores
+    const DisplayScores = () => {
+      setScore({ player1: player1Score, player2: player2Score });
+    };
+
+    // Gérer les scores
+    const DisplayTimer = () => {
+      setTimer({ timerdisplay: timeRemaining });
     };
 
     // Main game loop
@@ -203,8 +207,9 @@ const Pong = () => {
       drawPaddle(paddleLeftX, paddleLeftY);
       drawPaddle(paddleRightX, paddleRightY);
       drawBall(ballX, ballY);
-      drawScores();
-      drawTimer();
+
+      DisplayScores();
+      DisplayTimer();
 
       updatePaddlePosition();
       updateBallPosition();
@@ -234,7 +239,12 @@ const Pong = () => {
 
   return (
     <div>
-      <canvas id='pongCanvas' width={800} height={600}></canvas>
+      <div className='score'>
+        <p>P1 Score: {score.player1}</p>
+        <p>Timer: {timer.timerdisplay}s</p>
+        <p>P2 Score: {score.player2}</p>
+      </div>
+      <canvas id='pongCanvas' width={1000} height={600}></canvas>
     </div>
   );
 };
