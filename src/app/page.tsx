@@ -34,16 +34,15 @@ export default function Home() {
         <div className='brc-buttons-box'>
           {cocktails.map((cocktail, index) => (
             <button
-              onClick={() =>
-                handleCocktailChoice(slugify(cocktail.name, { lower: true }))
-              }
-              className={`brc-buttons ${slugify(cocktail.name, { lower: true })}`}
+              onClick={() => handleCocktailChoice(cocktail.name)}
+              className={`brc-buttons delay-${index} ${slugify(cocktail.name, { lower: true })}`}
               key={index}
             >
               {cocktail.name}
             </button>
           ))}
         </div>
+
         <div className='brc-footer'>
           <p>
             L'abus d'alcool est dangereux pour la santé, à consommer avec

@@ -22,23 +22,33 @@ const GamePage = () => {
     if (
       !localStorage.getItem('cocktail') ||
       localStorage.getItem('cocktail') === 'undefined' ||
-      !localStorage.getItem('game') ||
-      localStorage.getItem('game') !== game
+      !localStorage.getItem('game')
     ) {
       router.push('/');
       return;
     }
+
+    if (localStorage.getItem('game')) {
+      const storedGame = localStorage.getItem('game');
+      if (storedGame && slugify(storedGame, { lower: true }) !== game) {
+        router.push('/');
+        return;
+      }
+    }
   }, [router, game]);
 
-  if (localStorage.getItem('game') && localStorage.getItem('game') === game) {
-    const Game = dynamic(() => import(`@/components/games/${game}.tsx`), {
-      ssr: false,
-    });
-    return (
-      <div className='game'>
-        <Game />
-      </div>
-    );
+  if (localStorage.getItem('game')) {
+    const storedGame = localStorage.getItem('game');
+    if (storedGame && slugify(storedGame, { lower: true }) === game) {
+      const Game = dynamic(() => import(`@/components/games/${game}.tsx`), {
+        ssr: false,
+      });
+      return (
+        <div className='game'>
+          <Game />
+        </div>
+      );
+    }
   }
 };
 
