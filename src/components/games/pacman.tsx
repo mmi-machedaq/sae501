@@ -354,24 +354,11 @@ const Pacman = () => {
 
   // Vérification de fin de partie
   const checkGameEnd = useCallback(() => {
-    if (
-      score.player1 !== 0 &&
-      score.player2 !== 0 &&
-      gameStarted &&
-      points.length === 0 &&
-      !gameEnded
-    ) {
+    if (gameStarted && points.length === 0 && !gameEnded) {
       setGameEnded(true);
-      router.push('/serve-drinks'); // Redirection en cas de victoire
+      router.push('/serve-drinks-1'); // Redirection en cas de victoire
     }
-  }, [
-    score.player1,
-    score.player2,
-    gameStarted,
-    points.length,
-    gameEnded,
-    router,
-  ]);
+  }, [gameStarted, points.length, gameEnded, router]);
 
   // Dessine le jeu
   const drawGame = useCallback(() => {
@@ -387,14 +374,14 @@ const Pacman = () => {
     maze.forEach((row, i) => {
       row.forEach((cell, j) => {
         if (cell === 1) {
-          ctx.fillStyle = 'black';
+          ctx.fillStyle = '#1f1607';
           ctx.fillRect(i * gridSize, j * gridSize, gridSize, gridSize);
         }
       });
     });
 
     // Dessiner les points
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = '#0d3f6d';
     points.forEach((point) => {
       ctx.beginPath();
       ctx.arc(point.x, point.y, pacmanSize / 4, 0, Math.PI * 2);
@@ -402,13 +389,13 @@ const Pacman = () => {
     });
 
     // Dessiner Pac-Man 1
-    ctx.fillStyle = 'yellow';
+    ctx.fillStyle = '#d09425';
     ctx.beginPath();
     ctx.arc(pacman1.x, pacman1.y, currentHalfSizeP1 * 1.75, 0, Math.PI * 2);
     ctx.fill();
 
     // Dessiner Pac-Man 2
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = '#2488e5';
     ctx.beginPath();
     ctx.arc(pacman2.x, pacman2.y, currentHalfSizeP2 * 1.75, 0, Math.PI * 2);
     ctx.fill();
@@ -502,7 +489,7 @@ const Pacman = () => {
       dirY: 0,
     });
 
-    setPoints(generatePoints(newMaze, 39)); // 39 points à générer
+    setPoints(generatePoints(newMaze, 9)); // 39 points à générer
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Exécuter une seule fois
 

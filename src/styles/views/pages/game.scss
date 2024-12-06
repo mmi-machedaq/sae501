@@ -4,6 +4,7 @@
 .game {
   @include flex(center, center, column);
   padding: 1rem; // Ajoute un peu d'espace autour
+  align-items: center; // Centre les éléments verticalement
 }
 
 /*
@@ -28,7 +29,7 @@
 .score p {
   margin: 1rem; // Ajoute un espacement autour des scores
   font-size: 1.5rem; // Taille de texte pour écrans normaux
-  color: #333; // Couleur personnalisée
+  color: $black; // Couleur personnalisée
 
   @media (max-width: 768px) {
     font-size: 1.2rem; // Réduit la taille sur petits écrans
@@ -47,6 +48,7 @@ canvas {
   margin: auto; // Centrage horizontal
   width: 90%; // Ajuste la largeur du canvas
   height: auto; // Maintient les proportions
+  border: #0d3f6d;
 
   // Ajustement pour petits écrans
   @media (max-width: 768px) {

@@ -56,7 +56,7 @@ const Pong = () => {
     // Timer variables
     let timeRemaining = TIME_LIMIT;
     let timerInterval: NodeJS.Timeout | null = null;
-    const isOvertime = false;
+    let isOvertime = false;
 
     // Handle keyboard controls
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -146,9 +146,9 @@ const Pong = () => {
 
     // Draw field
     const drawField = () => {
-      ctx.fillStyle = '#523B0F';
+      ctx.fillStyle = '#DAECFB';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-      ctx.strokeStyle = '#f5f5f5';
+      ctx.strokeStyle = '#6A6760';
       ctx.setLineDash([5, 5]);
       ctx.beginPath();
       ctx.moveTo(canvasWidth / 2, 0);
@@ -158,13 +158,13 @@ const Pong = () => {
 
     // Draw paddle
     const drawPaddle = (x: number, y: number) => {
-      ctx.fillStyle = '#f5f5f5';
+      ctx.fillStyle = '#1f1607';
       ctx.fillRect(x, y, paddleWidth, paddleHeight);
     };
 
     // Draw ball
     const drawBall = (x: number, y: number) => {
-      ctx.fillStyle = '#f5f5f5';
+      ctx.fillStyle = '#1f1607';
       ctx.beginPath();
       ctx.arc(x, y, 8, 0, Math.PI * 2);
       ctx.fill();
@@ -173,10 +173,13 @@ const Pong = () => {
     // Check for game end
     const checkGameEnd = () => {
       if (timeRemaining <= 0 && !gameEnded) {
-        clearInterval(timerInterval!); // Stop the timer
-        setGameEnded(true);
-        storeScores();
-        router.push('/serve-drinks');
+        isOvertime = true;
+        if (player1Score !== player2Score) {
+          clearInterval(timerInterval!); // Stop the timer
+          setGameEnded(true);
+          storeScores();
+          router.push('/serve-drinks-1');
+        }
       }
     };
 
