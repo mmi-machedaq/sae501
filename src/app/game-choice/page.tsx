@@ -23,9 +23,9 @@ export default function GameChoice() {
     }
   }, [router]);
 
-  const handleGameChoice = (game: string) => {
-    localStorage.setItem('game', game);
-    router.push(`/games/${game}`);
+  const handleGameChoice = (gameName: string) => {
+    localStorage.setItem('game', gameName);
+    router.push(`/games/${slugify(gameName, { lower: true })}`);
   };
 
   return (
@@ -38,9 +38,7 @@ export default function GameChoice() {
         <div className='brc-buttons-box game-choice'>
           {games.map((game, index) => (
             <button
-              onClick={() =>
-                handleGameChoice(slugify(game.name, { lower: true }))
-              }
+              onClick={() => handleGameChoice(game.name)}
               className={`brc-buttons ${slugify(game.name, { lower: true })}`}
               key={index}
             >

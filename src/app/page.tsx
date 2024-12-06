@@ -34,9 +34,7 @@ export default function Home() {
         <div className='brc-buttons-box'>
           {cocktails.map((cocktail, index) => (
             <button
-              onClick={() =>
-                handleCocktailChoice(slugify(cocktail.name, { lower: true }))
-              }
+              onClick={() => handleCocktailChoice(cocktail.name)}
               className={`brc-buttons ${slugify(cocktail.name, { lower: true })}`}
               key={index}
             >
