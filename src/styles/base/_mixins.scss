@@ -254,3 +254,26 @@
     }
   }
 }
+
+@mixin brc-buttons-game {
+  .brc-buttons-game {
+    font-size: $fs-lg-md;
+    font-weight: $fw-light;
+
+    height: 90px;
+    width: 250px;
+    border-radius: 20px;
+
+    background-color: $white;
+    box-shadow:
+      5px 5px 10px #dadcdf,
+      -5px -5px 10px #ffffff;
+
+    transition: all 0.3s ease-in-out;
+  }
+  .brc-buttons-game:hover {
+    box-shadow:
+      inset 5px 5px 10px #dadcdf,
+      inset -5px -5px 10px #ffffff;
+  }
+}

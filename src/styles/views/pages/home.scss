@@ -31,6 +31,8 @@ main {
       font-weight: $fw-light;
       margin-bottom: $spacing-md;
       text-align: center;
+      animation: bounceIn 0.6s $ease-in forwards;
+      opacity: 0; /* Boutons cachés par défaut */
     }
     h3 {
       font-size: $fs-lg-md;
@@ -38,9 +40,19 @@ main {
       margin-bottom: $spacing-md;
       max-width: 1200px;
       text-align: center;
+      animation: bounceIn 0.6s $ease-in forwards;
+      opacity: 0; /* Boutons cachés par défaut */
+      animation-delay: 0.2s;
     }
 
     @include brc-buttons;
+
+    .brc-buttons {
+      animation: bounceIn 0.6s $ease-in forwards;
+      opacity: 0; /* Boutons cachés par défaut */
+
+      animation-delay: 0.4s;
+    }
 
     .liquide-btn {
       overflow: hidden;
@@ -139,19 +151,49 @@ main {
       position: relative;
       font-size: $fs-lg;
       font-weight: $fw-light;
-      margin-top: $spacing-huge;
+      padding: 2.5rem;
+      height: 355px;
+      animation: bounceIn 0.5s $ease-in forwards;
+      opacity: 0;
+      @include flex(center, center, row, 0);
+
+      h2 {
+        font-size: $fs-display-md;
+        font-weight: $fw-light;
+        text-transform: capitalize;
+      }
 
       > span {
         position: absolute;
-        top: -95%;
-        right: -95%;
+        top: 35%;
+        right: -29%;
         padding: 0.5rem 0.8rem;
-        font-size: $fs-sm;
+        font-size: 1rem;
         white-space: nowrap;
         background-color: #f5b82e;
         border-radius: 10px;
-        color: color.adjust($color: white, $alpha: 0.6);
+        color: white;
       }
+    }
+    .brc-buttons-box {
+      @include brc-buttons-game;
+
+      .brc-buttons-game {
+        animation: bounceIn 0.5s $ease-in forwards;
+        opacity: 0;
+      }
+
+      .brc-buttons-game.delay-0 {
+        animation-delay: 0.2s;
+      }
+
+      .brc-buttons-game.delay-1 {
+        animation-delay: 0.4s;
+      }
+    }
+
+    .brc-footer.game {
+      animation-delay: 1s;
     }
 
     .brc-footer {
