@@ -9,8 +9,6 @@ import '@/styles/views/pages/home.scss';
 
 import games from '@/data/games.json';
 
-import Logo from '~/icons/logo.svg';
-
 export default function GameChoice() {
   const router = useRouter();
 
@@ -32,27 +30,25 @@ export default function GameChoice() {
     <main>
       <div className='brc-background'></div>
       <div className='brc-container'>
-        <div className='brc-logo'>
-          <Logo />
+        <div className='brc-drink-info'>
+          <h2>
+            <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
+          </h2>
+          <span>Cocktail choisi</span>
         </div>
         <div className='brc-buttons-box game-choice'>
           {games.map((game, index) => (
             <button
               onClick={() => handleGameChoice(game.name)}
-              className={`brc-buttons ${slugify(game.name, { lower: true })}`}
+              className={`brc-buttons-game delay-${index} ${slugify(game.name, { lower: true })}`}
               key={index}
             >
               {game.name}
             </button>
           ))}
         </div>
-        <div className='brc-drink-info'>
-          <p>
-            <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
-          </p>
-          <span>Cocktail choisi</span>
-        </div>
-        <div className='brc-footer'>
+
+        <div className='brc-footer game'>
           <p>
             L'abus d'alcool est dangereux pour la santé, à consommer avec
             modération
