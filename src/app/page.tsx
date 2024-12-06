@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
 
 import '@/styles/views/pages/home.scss';
@@ -13,6 +13,13 @@ import Logo from '~/icons/logo.svg';
 export default function Home() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0); // État pour l'index actif
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem('cocktail') || localStorage.getItem('game')) {
@@ -56,7 +63,7 @@ export default function Home() {
   }, [activeIndex, handleCocktailChoice]);
 
   return (
-    <main>
+    <main ref={containerRef} tabIndex={0}>
       <div className='brc-background'></div>
       <div className='brc-container'>
         <div className='brc-logo'>

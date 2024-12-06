@@ -270,10 +270,12 @@
       -5px -5px 10px #ffffff;
 
     transition: all 0.3s ease-in-out;
-  }
-  .brc-buttons-game:hover {
-    box-shadow:
-      inset 5px 5px 10px #dadcdf,
-      inset -5px -5px 10px #ffffff;
+
+    &:hover,
+    &.active {
+      box-shadow:
+        inset 5px 5px 10px #dadcdf,
+        inset -5px -5px 10px #ffffff;
+    }
   }
 }
