@@ -52,10 +52,10 @@ export default function ServeDrinks() {
       <div className='brc-background'></div>
       <div className='brc-filling-container'>
         <div className='brc-drink-info'>
-          <h2 className='drink-name'>
+          <h2 className='drink-name'>Joueur 1</h2>
+          <span>
             <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
-          </h2>
-          <span>Cocktail choisi</span>
+          </span>
         </div>
         <p className='brc-filling-container__instructions'>
           Placez le verre du joueur 1 sous la machine à cocktail, puis appuyer
