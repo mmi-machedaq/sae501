@@ -16,6 +16,7 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Focus the container automatically => Fix for keys events not working at start
     if (containerRef.current) {
       containerRef.current.focus();
     }
