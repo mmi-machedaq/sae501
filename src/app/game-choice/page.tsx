@@ -6,6 +6,7 @@ import { LiaCocktailSolid } from 'react-icons/lia';
 import slugify from 'slugify';
 
 import '@/styles/views/pages/home.scss';
+import '@/styles/views/pages/game-choice.scss';
 
 import games from '@/data/games.json';
 
@@ -47,14 +48,18 @@ export default function GameChoice() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.moveLeft) {
         setActiveIndex((prevIndex) =>
-          prevIndex > 0 ? prevIndex - 1 : games.length - 1,
+          prevIndex > 0 ? prevIndex - 1 : games.length,
         );
       } else if (event.key === PLAYER_KEYS.player1.moveRight) {
         setActiveIndex((prevIndex) =>
-          prevIndex < games.length - 1 ? prevIndex + 1 : 0,
+          prevIndex < games.length ? prevIndex + 1 : 0,
         );
       } else if (event.key === PLAYER_KEYS.player1.confirmationButton) {
-        handleGameChoice(games[activeIndex].name);
+        if (activeIndex === games.length) {
+          router.push('/');
+        } else {
+          handleGameChoice(games[activeIndex].name);
+        }
       }
     };
 
@@ -63,18 +68,21 @@ export default function GameChoice() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeIndex, handleGameChoice]);
+  }, [activeIndex, handleGameChoice, router]);
 
   return (
     <main ref={containerRef} tabIndex={0}>
       <div className='brc-background'></div>
       <div className='brc-container'>
         <div className='brc-drink-info'>
-          <h2>
+          <h2>Choix du jeu</h2>
+          <span>
             <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
-          </h2>
-          <span>Cocktail choisi</span>
+          </span>
         </div>
+        <p className='brc-container__instructions'>
+          Le perdant obtiendra un cocktail plus corsé :)
+        </p>
         <div className='brc-buttons-box game-choice'>
           {games.map((game, index) => (
             <button
@@ -87,6 +95,12 @@ export default function GameChoice() {
               {game.name}
             </button>
           ))}
+          <button
+            onClick={() => router.push('/')}
+            className={`brc-buttons-game brc-button-back ${activeIndex === games.length ? 'active' : ''}`}
+          >
+            Retour à l'accueil
+          </button>
         </div>
 
         <div className='brc-footer game'>

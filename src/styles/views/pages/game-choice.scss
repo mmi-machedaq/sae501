@@ -1,0 +1,25 @@
+@use '../../base' as *;
+
+.brc-container {
+  .brc-drink-info {
+    height: fit-content !important;
+    margin-top: 25vh;
+  }
+
+  &__instructions {
+    font-size: $fs-regular;
+    font-weight: $fw-light;
+    padding-bottom: 2rem;
+  }
+
+  .brc-button-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 3rem;
+    padding: 1.5rem !important;
+    height: fit-content !important;
+    width: fit-content !important;
+    font-size: $fs-regular !important;
+  }
+}
