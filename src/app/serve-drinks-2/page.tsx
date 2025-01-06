@@ -1,15 +1,25 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { LiaCocktailSolid } from 'react-icons/lia';
 
 import '@/styles/views/pages/home.scss';
 import '@/styles/views/pages/serve-drinks.scss';
 
+import { PLAYER_KEYS } from '@/utils/constants/keys';
+
 export default function ServeDrinks() {
   const [isCupFilled, setIsCupFilled] = useState(false);
   const router = useRouter();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Focus the container automatically => Fix for keys events not working at start
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, []);
 
   const handleClick = () => {
     setIsCupFilled(true);
@@ -18,8 +28,27 @@ export default function ServeDrinks() {
     }, 10000);
   };
 
+  // Gestion des événements clavier
+  useEffect(() => {
+    interface KeyboardEvent {
+      key: string;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === PLAYER_KEYS.player2.confirmationButton) {
+        handleClick();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  });
+
   return (
-    <main>
+    <main ref={containerRef}>
       <div className='brc-background'></div>
       <div className='brc-filling-container'>
         <div className='brc-drink-info'>
@@ -29,11 +58,14 @@ export default function ServeDrinks() {
           <span>Cocktail choisi</span>
         </div>
         <p className='brc-filling-container__instructions'>
-          Placez le verre du joueur 2 sous la machine à cocktail, pour procéder
-          au remplissage.
+          Placez le verre du joueur 2 sous la machine à cocktail, puis appuyer
+          sur le bouton pour procéder au remplissage.
         </p>
         <div className='brc-buttons-box'>
-          <button className='brc-buttons liquide-btn' onClick={handleClick}>
+          <button
+            className='brc-buttons liquide-btn active'
+            onClick={handleClick}
+          >
             <div className='water-ctr'>
               <p>Remplir</p>
               <div className={`water ${isCupFilled ? 'active' : ''}`}></div>
