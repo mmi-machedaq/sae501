@@ -56,6 +56,14 @@ export default function Home() {
         setActiveIndex((prevIndex) =>
           prevIndex < cocktails.length - 1 ? prevIndex + 1 : 0,
         );
+      } else if (event.key === PLAYER_KEYS.player1.moveUp) {
+        setActiveIndex((prevIndex) =>
+          prevIndex > 2 ? prevIndex - 3 : prevIndex + 3,
+        );
+      } else if (event.key === PLAYER_KEYS.player1.moveDown) {
+        setActiveIndex((prevIndex) =>
+          prevIndex < 3 ? prevIndex + 3 : prevIndex - 3,
+        );
       } else if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         handleCocktailChoice(cocktails[activeIndex].name);
       }
