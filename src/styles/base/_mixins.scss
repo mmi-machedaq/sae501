@@ -279,3 +279,34 @@
     }
   }
 }
+
+@mixin brc-drink-info {
+  .brc-drink-info {
+    position: relative;
+    font-size: $fs-lg;
+    font-weight: $fw-light;
+    padding: 2.5rem;
+    height: 355px;
+    animation: bounceIn 0.5s $ease-in forwards;
+    opacity: 0;
+    @include flex(center, center, row, 0);
+
+    h2 {
+      font-size: $fs-display-md;
+      font-weight: $fw-light;
+      text-transform: capitalize;
+    }
+
+    > span {
+      position: absolute;
+      top: 35%;
+      right: -29%;
+      padding: 0.5rem 0.8rem;
+      font-size: 1rem;
+      white-space: nowrap;
+      background-color: #f5b82e;
+      border-radius: 10px;
+      color: white;
+    }
+  }
+}

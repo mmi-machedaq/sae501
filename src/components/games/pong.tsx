@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-const TIME_LIMIT = 60;
+const TIME_LIMIT = 30;
 
 const Pong = () => {
   const router = useRouter();

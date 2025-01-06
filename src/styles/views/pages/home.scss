@@ -44,6 +44,19 @@ main {
       opacity: 0; /* Boutons cachés par défaut */
       animation-delay: 0.2s;
     }
+    @include brc-drink-info;
+
+    .brc-drink-info {
+      height: 100px;
+
+      h2 {
+        font-size: $fs-xxl;
+      }
+
+      > span {
+        top: 0%;
+      }
+    }
 
     @include brc-buttons;
 
@@ -147,34 +160,8 @@ main {
       }
     }
 
-    .brc-drink-info {
-      position: relative;
-      font-size: $fs-lg;
-      font-weight: $fw-light;
-      padding: 2.5rem;
-      height: 355px;
-      animation: bounceIn 0.5s $ease-in forwards;
-      opacity: 0;
-      @include flex(center, center, row, 0);
+    @include brc-drink-info;
 
-      h2 {
-        font-size: $fs-display-md;
-        font-weight: $fw-light;
-        text-transform: capitalize;
-      }
-
-      > span {
-        position: absolute;
-        top: 35%;
-        right: -29%;
-        padding: 0.5rem 0.8rem;
-        font-size: 1rem;
-        white-space: nowrap;
-        background-color: #f5b82e;
-        border-radius: 10px;
-        color: white;
-      }
-    }
     .brc-buttons-box {
       @include brc-buttons-game;
 
