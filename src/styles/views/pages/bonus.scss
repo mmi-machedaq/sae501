@@ -1,0 +1,56 @@
+@use 'sass:color';
+@use '../../base' as *;
+
+.brc-bonus-container {
+  @include flex(center, center, column, 1rem);
+  height: 100vh;
+
+  h2 {
+    font-size: $fs-xxl;
+    font-weight: $fw-light;
+    margin-bottom: $spacing-md;
+    text-align: center;
+    animation: bounceIn 0.6s $ease-in forwards;
+    opacity: 0; /* Boutons cachés par défaut */
+  }
+
+  h3 {
+    font-size: $fs-lg-md;
+    font-weight: $fw-light;
+    margin-bottom: $spacing-md;
+    max-width: 1200px;
+    text-align: center;
+    animation: bounceIn 0.6s $ease-in forwards;
+    opacity: 0; /* Boutons cachés par défaut */
+    animation-delay: 0.2s;
+  }
+
+  &__random-sentence {
+    font-size: $fs-regular;
+    font-weight: $fw-light;
+    padding-bottom: 2rem;
+  }
+
+  @include brc-drink-info;
+
+  .brc-drink-info {
+    height: fit-content;
+    padding-bottom: 0;
+    h2 {
+      font-size: $fs-xxl;
+    }
+
+    > span {
+      top: 0%;
+    }
+  }
+
+  @include brc-buttons;
+
+  .brc-buttons {
+    animation: bounceIn 0.6s $ease-in forwards;
+    opacity: 0; /* Boutons cachés par défaut */
+
+    animation-delay: 0.4s;
+  }
+}
