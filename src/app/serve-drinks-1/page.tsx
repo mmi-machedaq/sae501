@@ -10,17 +10,18 @@ import '@/styles/views/pages/serve-drinks.scss';
 import { PLAYER_KEYS } from '@/utils/constants/keys';
 
 export default function ServeDrinks() {
-  const [isCupFilled, setIsCupFilled] = useState(false);
+  const [isCupFilled, setIsCupFilled] = useState(false); // État pour le remplissage du verre : initialisé à faux
   const router = useRouter();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null); // Référence pour le conteneur
 
   useEffect(() => {
-    // Focus the container automatically => Fix for keys events not working at start
+    // Focus sur le conteneur au montage
     if (containerRef.current) {
       containerRef.current.focus();
     }
   }, []);
 
+  // Gestion du remplissage du verre : redirection après 10 secondes
   const handleClick = () => {
     setIsCupFilled(true);
     setTimeout(() => {
@@ -34,6 +35,7 @@ export default function ServeDrinks() {
       key: string;
     }
 
+    // Gestion des événements clavier : touche entrée
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         handleClick();
@@ -68,7 +70,9 @@ export default function ServeDrinks() {
           >
             <div className='water-ctr'>
               <p>Remplir</p>
-              <div className={`water ${isCupFilled ? 'active' : ''}`}></div>
+              <div
+                className={`water ${isCupFilled ? 'active' : ''}`} // Ajout de la classe 'active' si le bouton est cliqué
+              ></div>
             </div>
           </button>
         </div>

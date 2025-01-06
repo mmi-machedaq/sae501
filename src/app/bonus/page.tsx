@@ -13,13 +13,15 @@ import { PLAYER_KEYS } from '@/utils/constants/keys';
 
 export default function Bonus() {
   const router = useRouter();
-  const [randomPhrase, setRandomPhrase] = useState('');
+  const [randomPhrase, setRandomPhrase] = useState(''); // État pour la phrase aléatoire, initialisé à une chaîne vide
 
+  // Sélection d'une phrase aléatoire au montage
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * phrases.length);
     setRandomPhrase(phrases[randomIndex].text);
   }, []);
 
+  // Au clic sur le bouton : nettoyage du localStorage et redirection vers la page d'accueil
   const handleClick = () => {
     localStorage.clear();
     router.push('/');
@@ -31,6 +33,7 @@ export default function Bonus() {
       key: string;
     }
 
+    // Événement de pression de la touche Entrée
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         handleClick();

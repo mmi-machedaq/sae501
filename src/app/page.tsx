@@ -15,21 +15,23 @@ import Logo from '~/icons/logo.svg';
 export default function Home() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0); // État pour l'index actif
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null); // Référence pour le conteneur
 
+  // Focus sur le conteneur au montage
   useEffect(() => {
-    // Focus the container automatically => Fix for keys events not working at start
     if (containerRef.current) {
       containerRef.current.focus();
     }
   }, []);
 
+  // Nettoyage du localStorage au montage
   useEffect(() => {
     if (localStorage.getItem('cocktail') || localStorage.getItem('game')) {
       localStorage.clear();
     }
   }, []);
 
+  // Gestion du choix du cocktail
   const handleCocktailChoice = useCallback(
     (cocktailName: string) => {
       localStorage.setItem('cocktail', cocktailName);
@@ -44,6 +46,7 @@ export default function Home() {
       key: string;
     }
 
+    // Gestion des événements clavier : touches fléchées et entrée
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.moveLeft) {
         setActiveIndex((prevIndex) =>
@@ -79,7 +82,7 @@ export default function Home() {
               onClick={() => handleCocktailChoice(cocktail.name)}
               className={`brc-buttons delay-${index} ${slugify(cocktail.name, {
                 lower: true,
-              })} ${activeIndex === index ? 'active' : ''}`} // Ajout d'une classe active
+              })} ${activeIndex === index ? 'active' : ''}`} // Ajout d'une classe active si l'index est actif
             >
               {cocktail.name}
             </button>

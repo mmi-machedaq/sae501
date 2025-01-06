@@ -13,10 +13,10 @@ import { PLAYER_KEYS } from '@/utils/constants/keys';
 
 export default function GameChoice() {
   const router = useRouter();
-  const [activeIndex, setActiveIndex] = useState(0); // State for active index
-  const containerRef = useRef<HTMLDivElement>(null); // Reference for focus
+  const [activeIndex, setActiveIndex] = useState(0); // État pour l'index actif
+  const containerRef = useRef<HTMLDivElement>(null); // Référence pour le conteneur
 
-  // Redirect if no cocktail is chosen
+  // Présence du cocktail dans le localStorage : redirection si absent
   useEffect(() => {
     if (
       !localStorage.getItem('cocktail') ||
@@ -26,13 +26,14 @@ export default function GameChoice() {
     }
   }, [router]);
 
-  // Focus the container on component mount
+  // Focus sur le conteneur au montage
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.focus();
     }
   }, []);
 
+  // Nettoyage du localStorage au montage
   const handleGameChoice = useCallback(
     (gameName: string) => {
       localStorage.setItem('game', gameName);
@@ -41,7 +42,7 @@ export default function GameChoice() {
     [router],
   );
 
-  // Keyboard navigation for games
+  // Gestion des événements clavier : touches fléchées et entrée
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.moveLeft) {
@@ -81,7 +82,7 @@ export default function GameChoice() {
               onClick={() => handleGameChoice(game.name)}
               className={`brc-buttons-game delay-${index} ${slugify(game.name, {
                 lower: true,
-              })} ${activeIndex === index ? 'active' : ''}`}
+              })} ${activeIndex === index ? 'active' : ''}`} // Ajout de la classe 'active' si l'index est actif
             >
               {game.name}
             </button>
