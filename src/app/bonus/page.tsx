@@ -27,7 +27,7 @@ export default function Bonus() {
     <main>
       <div className='brc-background'></div>
       <div className='brc-bonus-container'>
-        <h2>On relance les cartes :</h2>
+        <h2>Défi bonus</h2>
         <p className='brc-bonus-container__random-sentence'>
           {randomPhrase || 'Chargement...'}
         </p>
