@@ -9,6 +9,8 @@ import '@/styles/views/pages/bonus.scss';
 
 import phrases from '@/data/phrases.json';
 
+import { PLAYER_KEYS } from '@/utils/constants/keys';
+
 export default function Bonus() {
   const router = useRouter();
   const [randomPhrase, setRandomPhrase] = useState('');
@@ -23,6 +25,25 @@ export default function Bonus() {
     router.push('/');
   };
 
+  // Gestion des événements clavier
+  useEffect(() => {
+    interface KeyboardEvent {
+      key: string;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === PLAYER_KEYS.player1.confirmationButton) {
+        handleClick();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  });
+
   return (
     <main>
       <div className='brc-background'></div>
@@ -32,7 +53,7 @@ export default function Bonus() {
           {randomPhrase || 'Chargement...'}
         </p>
         <div className='brc-buttons-box'>
-          <button className='brc-buttons' onClick={handleClick}>
+          <button className='brc-buttons active' onClick={handleClick}>
             <MdAutorenew />
             Nouvelle partie
           </button>

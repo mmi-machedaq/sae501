@@ -9,6 +9,8 @@ import '@/styles/views/pages/home.scss';
 
 import games from '@/data/games.json';
 
+import { PLAYER_KEYS } from '@/utils/constants/keys';
+
 export default function GameChoice() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0); // State for active index
@@ -42,15 +44,15 @@ export default function GameChoice() {
   // Keyboard navigation for games
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowLeft') {
+      if (event.key === PLAYER_KEYS.player1.moveLeft) {
         setActiveIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : games.length - 1,
         );
-      } else if (event.key === 'ArrowRight') {
+      } else if (event.key === PLAYER_KEYS.player1.moveRight) {
         setActiveIndex((prevIndex) =>
           prevIndex < games.length - 1 ? prevIndex + 1 : 0,
         );
-      } else if (event.key === 'Enter') {
+      } else if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         handleGameChoice(games[activeIndex].name);
       }
     };

@@ -8,6 +8,8 @@ import '@/styles/views/pages/home.scss';
 
 import cocktails from '@/data/cocktails.json';
 
+import { PLAYER_KEYS } from '@/utils/constants/keys';
+
 import Logo from '~/icons/logo.svg';
 
 export default function Home() {
@@ -43,15 +45,15 @@ export default function Home() {
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowLeft') {
+      if (event.key === PLAYER_KEYS.player1.moveLeft) {
         setActiveIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : cocktails.length - 1,
         );
-      } else if (event.key === 'ArrowRight') {
+      } else if (event.key === PLAYER_KEYS.player1.moveRight) {
         setActiveIndex((prevIndex) =>
           prevIndex < cocktails.length - 1 ? prevIndex + 1 : 0,
         );
-      } else if (event.key === 'Enter') {
+      } else if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         handleCocktailChoice(cocktails[activeIndex].name);
       }
     };
