@@ -139,8 +139,8 @@ const Pong = () => {
 
     // Accelerate ball
     const accelerateBall = () => {
-      ballSpeedX *= 1.05;
-      ballSpeedY *= 1.05;
+      ballSpeedX *= 1.15;
+      ballSpeedY *= 1.15;
     };
 
     // Reset ball position
@@ -220,8 +220,8 @@ const Pong = () => {
         gameWinner = 'Player 2';
         gameLoser = 'Player 1';
       } else {
-        gameWinner = 'Draw'; // Égalité
-        gameLoser = 'Draw'; // Pas de perdant
+        gameWinner = 'Draw';
+        gameLoser = 'Draw';
       }
 
       // Stocker les résultats dans le localStorage

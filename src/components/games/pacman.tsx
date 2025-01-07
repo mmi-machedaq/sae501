@@ -7,6 +7,18 @@ import { PLAYER_KEYS } from '@/utils/constants/keys';
 
 type Position = { x: number; y: number };
 
+//musique a l'ouverture de la page
+// Lecture du son à l'apparition de la page
+declare global {
+  interface Window {
+    pageSound?: HTMLAudioElement;
+  }
+}
+if (!window.pageSound) {
+  window.pageSound = new Audio('/sounds/pacman.mp3');
+  window.pageSound.play();
+}
+
 const Pacman = () => {
   const router = useRouter();
   // Références pour le canvas

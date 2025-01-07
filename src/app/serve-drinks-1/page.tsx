@@ -11,6 +11,12 @@ import '@/styles/views/pages/popup.scss';
 import { PLAYER_KEYS } from '@/utils/constants/keys';
 
 export default function ServeDrinks() {
+  //arreter le son
+  if (window.pageSound) {
+    window.pageSound.pause();
+    window.pageSound.currentTime = 0;
+  }
+
   const [isCupFilled, setIsCupFilled] = useState(false); // État pour le remplissage du verre : initialisé à faux
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null); // Référence pour le conteneur
