@@ -6,6 +6,7 @@ import { LiaCocktailSolid } from 'react-icons/lia';
 
 import '@/styles/views/pages/home.scss';
 import '@/styles/views/pages/serve-drinks.scss';
+import '@/styles/views/pages/popup.scss';
 
 import { PLAYER_KEYS } from '@/utils/constants/keys';
 
@@ -49,8 +50,51 @@ export default function ServeDrinks() {
     };
   });
 
+  // Récupérer les informations depuis le localStorage
+  const gameWinner = localStorage.getItem('gameWinner');
+  const gameLoser = localStorage.getItem('gameLoser');
+
+  // Déterminer le statut du joueur 1
+  let player1Status;
+  let player2Status;
+
+  if (gameWinner === 'Player 1') {
+    player1Status = 'Gagnant';
+  } else if (gameLoser === 'Player 1') {
+    player1Status = 'Perdant';
+  } else {
+    player1Status = 'Égalité';
+  }
+
+  if (gameWinner === 'Player 2') {
+    player2Status = 'Gagnant';
+  } else if (gameLoser === 'Player 2') {
+    player2Status = 'Perdant';
+  } else {
+    player2Status = 'Égalité';
+  }
+
+  const [isPopupVisible, setPopupVisible] = useState(true);
+
+  const handleClosePopup = () => {
+    setPopupVisible(false);
+  };
+
   return (
     <main ref={containerRef}>
+      {isPopupVisible && (
+        <div className='popup' style={{ display: 'flex' }}>
+          <div className='popup-content'>
+            <h2>Résultat de la partie</h2>
+            <p className='popup-message'>Joueur 1 : {player1Status}</p>
+            <p className='popup-message'>Joueur 2 : {player2Status}</p>
+            <button className='brc-buttons hide' onClick={handleClosePopup}>
+              Suivant
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className='brc-background'></div>
       <div className='brc-filling-container'>
         <div className='brc-drink-info'>
@@ -60,8 +104,8 @@ export default function ServeDrinks() {
           </span>
         </div>
         <p className='brc-filling-container__instructions'>
-          Placez le verre du joueur 1 sous la machine à cocktail, puis appuyer
-          sur le bouton pour procéder au remplissage.
+          Placez le verre du joueur 1 ({player1Status}) sous la machine à
+          cocktail, puis appuyer sur le bouton pour procéder au remplissage.
         </p>
         <div className='brc-buttons-box'>
           <button

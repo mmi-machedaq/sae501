@@ -189,6 +189,44 @@ const Pong = () => {
       localStorage.setItem('player2Score', player2Score.toString());
     };
 
+    // Récupérer les scores des joueurs depuis le localStorage
+    const getScores = () => {
+      const player1Score =
+        parseInt(localStorage.getItem('player1Score') ?? '0', 10) || 0;
+      const player2Score =
+        parseInt(localStorage.getItem('player2Score') ?? '0', 10) || 0;
+      return { player1Score, player2Score };
+    };
+
+    // Comparer les scores pour déterminer le gagnant et le perdant
+    const determineWinnerAndLoser = () => {
+      const { player1Score, player2Score } = getScores();
+
+      let gameWinner, gameLoser;
+
+      if (player1Score > player2Score) {
+        gameWinner = 'Player 1';
+        gameLoser = 'Player 2';
+      } else if (player2Score > player1Score) {
+        gameWinner = 'Player 2';
+        gameLoser = 'Player 1';
+      } else {
+        gameWinner = 'Draw'; // Égalité
+        gameLoser = 'Draw'; // Pas de perdant
+      }
+
+      // Stocker les résultats dans le localStorage
+      localStorage.setItem('gameWinner', gameWinner);
+      localStorage.setItem('gameLoser', gameLoser);
+
+      // Debugging : afficher le gagnant et le perdant dans la console
+      console.log('Game Winner:', gameWinner);
+      console.log('Game Loser:', gameLoser);
+    };
+
+    // Appeler la fonction pour déterminer et afficher le gagnant
+    determineWinnerAndLoser();
+
     // Gérer les scores
     const DisplayScores = () => {
       setScore({ player1: player1Score, player2: player2Score });

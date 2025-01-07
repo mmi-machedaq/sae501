@@ -49,6 +49,21 @@ export default function ServeDrinks() {
     };
   });
 
+  // Récupérer les informations depuis le localStorage
+  const gameWinner = localStorage.getItem('gameWinner');
+  const gameLoser = localStorage.getItem('gameLoser');
+
+  // Déterminer le statut du joueur 1
+  let player2Status;
+
+  if (gameWinner === 'Player 2') {
+    player2Status = 'Gagnant';
+  } else if (gameLoser === 'Player 1') {
+    player2Status = 'Perdant';
+  } else {
+    player2Status = 'Égalité';
+  }
+
   return (
     <main ref={containerRef}>
       <div className='brc-background'></div>
@@ -60,8 +75,8 @@ export default function ServeDrinks() {
           </span>
         </div>
         <p className='brc-filling-container__instructions'>
-          Placez le verre du joueur 2 sous la machine à cocktail, puis appuyer
-          sur le bouton pour procéder au remplissage.
+          Placez le verre du joueur 2 ({player2Status}) sous la machine à
+          cocktail, puis appuyer sur le bouton pour procéder au remplissage.
         </p>
         <div className='brc-buttons-box'>
           <button
