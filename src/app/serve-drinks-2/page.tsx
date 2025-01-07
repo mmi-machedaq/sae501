@@ -58,7 +58,7 @@ export default function ServeDrinks() {
 
   if (gameWinner === 'Player 2') {
     player2Status = 'Gagnant';
-  } else if (gameLoser === 'Player 1') {
+  } else if (gameLoser === 'Player 2') {
     player2Status = 'Perdant';
   } else {
     player2Status = 'Égalité';
