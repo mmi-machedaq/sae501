@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { PLAYER_KEYS } from '@/utils/constants/keys';
+
 declare global {
   interface Window {
     canvas: HTMLCanvasElement;
@@ -60,15 +62,22 @@ const Pong = () => {
 
     // Handle keyboard controls
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'z') paddleLeftDirection = -1;
-      if (e.key === 's') paddleLeftDirection = 1;
-      if (e.key === 'ArrowUp') paddleRightDirection = -1;
-      if (e.key === 'ArrowDown') paddleRightDirection = 1;
+      if (e.key === PLAYER_KEYS.player1.moveUp) paddleLeftDirection = -1;
+      if (e.key === PLAYER_KEYS.player1.moveDown) paddleLeftDirection = 1;
+      if (e.key === PLAYER_KEYS.player2.moveUp) paddleRightDirection = -1;
+      if (e.key === PLAYER_KEYS.player2.moveDown) paddleRightDirection = 1;
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'z' || e.key === 's') paddleLeftDirection = 0;
-      if (e.key === 'ArrowUp' || e.key === 'ArrowDown')
+      if (
+        e.key === PLAYER_KEYS.player1.moveUp ||
+        e.key === PLAYER_KEYS.player1.moveDown
+      )
+        paddleLeftDirection = 0;
+      if (
+        e.key === PLAYER_KEYS.player2.moveUp ||
+        e.key === PLAYER_KEYS.player2.moveDown
+      )
         paddleRightDirection = 0;
     };
 

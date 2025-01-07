@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { PLAYER_KEYS } from '@/utils/constants/keys';
+
 type Position = { x: number; y: number };
 
 const Pacman = () => {
@@ -446,37 +448,35 @@ const Pacman = () => {
   // Gestion des touches
   const handleKeyDown = (e: KeyboardEvent) => {
     switch (e.key) {
-      case 'z':
+      case PLAYER_KEYS.player1.moveUp:
         setPacman1((prev) => ({ ...prev, dirX: 0, dirY: -1 }));
         break;
-      case 's':
+      case PLAYER_KEYS.player1.moveDown:
         setPacman1((prev) => ({ ...prev, dirX: 0, dirY: 1 }));
         break;
-      case 'q':
+      case PLAYER_KEYS.player1.moveLeft:
         setPacman1((prev) => ({ ...prev, dirX: -1, dirY: 0 }));
         break;
-      case 'd':
+      case PLAYER_KEYS.player1.moveRight:
         setPacman1((prev) => ({ ...prev, dirX: 1, dirY: 0 }));
         break;
-
-      case 'ArrowUp':
-        setPacman2((prev) => ({ ...prev, dirX: 0, dirY: -1 }));
-        break;
-      case 'ArrowDown':
-        setPacman2((prev) => ({ ...prev, dirX: 0, dirY: 1 }));
-        break;
-      case 'ArrowLeft':
-        setPacman2((prev) => ({ ...prev, dirX: -1, dirY: 0 }));
-        break;
-      case 'ArrowRight':
-        setPacman2((prev) => ({ ...prev, dirX: 1, dirY: 0 }));
-        break;
-
-      case 'e': // Si la touche E est enfoncée, réduire la taille de Pacman 1
+      case PLAYER_KEYS.player1.confirmationButton: // Si la touche I est enfoncée, réduire la taille de Pacman 2
         setCurrentHalfSizeP1(pacmanSize / 2.25);
         break;
 
-      case 'i': // Si la touche I est enfoncée, réduire la taille de Pacman 2
+      case PLAYER_KEYS.player2.moveUp:
+        setPacman2((prev) => ({ ...prev, dirX: 0, dirY: -1 }));
+        break;
+      case PLAYER_KEYS.player2.moveDown:
+        setPacman2((prev) => ({ ...prev, dirX: 0, dirY: 1 }));
+        break;
+      case PLAYER_KEYS.player2.moveLeft:
+        setPacman2((prev) => ({ ...prev, dirX: -1, dirY: 0 }));
+        break;
+      case PLAYER_KEYS.player2.moveRight:
+        setPacman2((prev) => ({ ...prev, dirX: 1, dirY: 0 }));
+        break;
+      case PLAYER_KEYS.player2.confirmationButton: // Si la touche E est enfoncée, réduire la taille de Pacman 1
         setCurrentHalfSizeP2(pacmanSize / 2.25);
         break;
     }
@@ -485,25 +485,23 @@ const Pacman = () => {
   // Arrêter le mouvement lorsque la touche est relâchée
   const handleKeyUp = (e: KeyboardEvent) => {
     switch (e.key) {
-      case 'z':
-      case 's':
-      case 'q':
-      case 'd':
+      case PLAYER_KEYS.player1.moveUp:
+      case PLAYER_KEYS.player1.moveDown:
+      case PLAYER_KEYS.player1.moveLeft:
+      case PLAYER_KEYS.player1.moveRight:
         setPacman1((prev) => ({ ...prev, dirX: 0, dirY: 0 }));
         break;
-
-      case 'ArrowUp':
-      case 'ArrowDown':
-      case 'ArrowLeft':
-      case 'ArrowRight':
-        setPacman2((prev) => ({ ...prev, dirX: 0, dirY: 0 }));
-        break;
-
-      case 'e': // Si la touche E est relâchée, revenir à la taille normale pour Pacman 1
+      case PLAYER_KEYS.player1.confirmationButton: // Si la touche E est relâchée, revenir à la taille normale pour Pacman 1
         setCurrentHalfSizeP1(pacmanSize / 1.75);
         break;
 
-      case 'i': // Si la touche I est relâchée, revenir à la taille normale pour Pacman 2
+      case PLAYER_KEYS.player2.moveUp:
+      case PLAYER_KEYS.player2.moveDown:
+      case PLAYER_KEYS.player2.moveLeft:
+      case PLAYER_KEYS.player2.moveRight:
+        setPacman2((prev) => ({ ...prev, dirX: 0, dirY: 0 }));
+        break;
+      case PLAYER_KEYS.player2.confirmationButton: // Si la touche I est relâchée, revenir à la taille normale pour Pacman 2
         setCurrentHalfSizeP2(pacmanSize / 1.75);
         break;
     }
