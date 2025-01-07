@@ -45,21 +45,31 @@ export default function GameChoice() {
 
   // Gestion des événements clavier : touches fléchées et entrée
   useEffect(() => {
+    interface KeyboardEvent {
+      key: string;
+    }
+    // Importation des fichiers audio
+    const arrowSound = new Audio('/sounds/select.mp3');
+    const enterSound = new Audio('/sounds/press.mp3');
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.moveLeft) {
         setActiveIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : games.length,
         );
+        arrowSound.play(); // Jouer le son pour les flèches
       } else if (event.key === PLAYER_KEYS.player1.moveRight) {
         setActiveIndex((prevIndex) =>
           prevIndex < games.length ? prevIndex + 1 : 0,
         );
+        arrowSound.play(); // Jouer le son pour les flèches
       } else if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         if (activeIndex === games.length) {
           router.push('/');
         } else {
           handleGameChoice(games[activeIndex].name);
         }
+        enterSound.play(); // Jouer le son pour la touche entrée
       }
     };
 

@@ -35,10 +35,14 @@ export default function ServeDrinks() {
       key: string;
     }
 
+    // Importation des fichiers audio
+    const enterSound = new Audio('/sounds/press.mp3');
+
     // Gestion des événements clavier : touche entrée
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === PLAYER_KEYS.player2.confirmationButton) {
+      if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         handleClick();
+        enterSound.play(); // Jouer le son pour la touche entrée
       }
     };
 

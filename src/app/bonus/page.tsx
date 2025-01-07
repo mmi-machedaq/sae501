@@ -33,10 +33,15 @@ export default function Bonus() {
       key: string;
     }
 
+    // Importation des fichiers audio
+
+    const enterSound = new Audio('/sounds/press.mp3');
+
     // Événement de pression de la touche Entrée
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         handleClick();
+        enterSound.play(); // Jouer le son pour la touche entrée
       }
     };
 

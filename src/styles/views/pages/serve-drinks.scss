@@ -9,6 +9,10 @@
     font-size: $fs-regular;
     font-weight: $fw-light;
     padding-bottom: 2rem;
+
+    animation: bounceIn 0.6s $ease-in forwards;
+    opacity: 0; /* Boutons cachés par défaut */
+    animation-delay: 0.2s;
   }
 
   h2 {

@@ -46,26 +46,35 @@ export default function Home() {
       key: string;
     }
 
+    // Importation des fichiers audio
+    const arrowSound = new Audio('/sounds/select.mp3');
+    const enterSound = new Audio('/sounds/press.mp3');
+
     // Gestion des événements clavier : touches fléchées et entrée
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.moveLeft) {
         setActiveIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : cocktails.length - 1,
         );
+        arrowSound.play(); // Jouer le son pour les flèches
       } else if (event.key === PLAYER_KEYS.player1.moveRight) {
         setActiveIndex((prevIndex) =>
           prevIndex < cocktails.length - 1 ? prevIndex + 1 : 0,
         );
+        arrowSound.play(); // Jouer le son pour les flèches
       } else if (event.key === PLAYER_KEYS.player1.moveUp) {
         setActiveIndex((prevIndex) =>
           prevIndex > 2 ? prevIndex - 3 : prevIndex + 3,
         );
+        arrowSound.play(); // Jouer le son pour les flèches
       } else if (event.key === PLAYER_KEYS.player1.moveDown) {
         setActiveIndex((prevIndex) =>
           prevIndex < 3 ? prevIndex + 3 : prevIndex - 3,
         );
+        arrowSound.play(); // Jouer le son pour les flèches
       } else if (event.key === PLAYER_KEYS.player1.confirmationButton) {
         handleCocktailChoice(cocktails[activeIndex].name);
+        enterSound.play(); // Jouer le son pour la touche entrée
       }
     };
 

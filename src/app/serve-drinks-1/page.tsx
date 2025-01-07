@@ -36,10 +36,19 @@ export default function ServeDrinks() {
       key: string;
     }
 
+    // Importation des fichiers audio
+
+    const enterSound = new Audio('/sounds/press.mp3');
+
     // Gestion des événements clavier : touche entrée
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.confirmationButton) {
-        handleClick();
+        if (!isPopupVisible) {
+          handleClick();
+        } else {
+          handleClosePopup();
+        }
+        enterSound.play(); // Jouer le son pour la touche entrée
       }
     };
 
@@ -56,7 +65,6 @@ export default function ServeDrinks() {
 
   // Déterminer le statut du joueur 1
   let player1Status;
-  let player2Status;
 
   if (gameWinner === 'Player 1') {
     player1Status = 'Gagnant';
@@ -66,14 +74,6 @@ export default function ServeDrinks() {
     player1Status = 'Égalité';
   }
 
-  if (gameWinner === 'Player 2') {
-    player2Status = 'Gagnant';
-  } else if (gameLoser === 'Player 2') {
-    player2Status = 'Perdant';
-  } else {
-    player2Status = 'Égalité';
-  }
-
   const [isPopupVisible, setPopupVisible] = useState(true);
 
   const handleClosePopup = () => {
@@ -81,14 +81,16 @@ export default function ServeDrinks() {
   };
 
   return (
-    <main ref={containerRef}>
+    <main ref={containerRef} tabIndex={0}>
       {isPopupVisible && (
         <div className='popup' style={{ display: 'flex' }}>
           <div className='popup-content'>
             <h2>Résultat de la partie</h2>
-            <p className='popup-message'>Joueur 1 : {player1Status}</p>
-            <p className='popup-message'>Joueur 2 : {player2Status}</p>
-            <button className='brc-buttons hide' onClick={handleClosePopup}>
+            <p className='popup-message'>
+              Le gagnant est{' '}
+              {gameWinner === 'Player 1' ? 'Joueur 1' : 'Joueur 2'}{' '}
+            </p>
+            <button className='brc-buttons active' onClick={handleClosePopup}>
               Suivant
             </button>
           </div>
