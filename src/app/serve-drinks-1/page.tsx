@@ -76,6 +76,14 @@ export default function ServeDrinks() {
 
   const [isPopupVisible, setPopupVisible] = useState(true);
 
+  // Son pour l'apparition du pop-up
+  useEffect(() => {
+    if (isPopupVisible) {
+      const popupSound = new Audio('/sounds/win.mp3');
+      popupSound.play();
+    }
+  }, [isPopupVisible]);
+
   const handleClosePopup = () => {
     setPopupVisible(false);
   };
