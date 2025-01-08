@@ -8,7 +8,13 @@ import { PLAYER_KEYS } from '@/utils/constants/keys';
 declare global {
   interface Window {
     canvas: HTMLCanvasElement;
+    pageSound?: HTMLAudioElement;
   }
+}
+
+if (!window.pageSound) {
+  window.pageSound = new Audio('/sounds/pong.mp3');
+  window.pageSound.play();
 }
 
 const TIME_LIMIT = 30;
@@ -99,6 +105,10 @@ const Pong = () => {
       );
     };
 
+    //ajout sound design
+    const soundBip = new Audio('/sounds/bip.mp3');
+    //const soundBuzz = new Audio('/sounds/buzz.mp3');
+
     // Update ball position
     const updateBallPosition = () => {
       ballX += ballSpeedX;
@@ -116,6 +126,7 @@ const Pong = () => {
         ballSpeedX *= -1;
         ballX = paddleLeftX + paddleWidth;
         accelerateBall();
+        soundBip.play();
       }
 
       if (
@@ -126,6 +137,7 @@ const Pong = () => {
         ballSpeedX *= -1;
         ballX = paddleRightX - paddleWidth;
         accelerateBall();
+        soundBip.play();
       }
 
       if (ballX <= 0) {
