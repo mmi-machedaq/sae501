@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
     // Respond to the frontend with the Arduino's response
     return NextResponse.json({ message: response.data });
   } catch (error) {
-    console.error('Error communicating with Arduino:', error);
     return NextResponse.json({ error: error }, { status: 500 });
   }
 }

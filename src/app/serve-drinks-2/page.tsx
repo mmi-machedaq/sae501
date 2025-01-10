@@ -7,26 +7,70 @@ import { LiaCocktailSolid } from 'react-icons/lia';
 import '@/styles/views/pages/home.scss';
 import '@/styles/views/pages/serve-drinks.scss';
 
+import cocktails from '@/data/cocktails.json';
+
+import { sendCocktailRecipe } from '@/services/sendCocktailRecipe';
 import { PLAYER_KEYS } from '@/utils/constants/keys';
 
 export default function ServeDrinks() {
+  const [isErrorPopupVisible, setErrorPopupVisible] = useState(false);
+  const [selectedCocktail, setSelectedCocktail] = useState({}); // État pour le cocktail sélectionné : initialisé à un objet vide
   const [isCupFilled, setIsCupFilled] = useState(false); // État pour le remplissage du verre : initialisé à faux
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null); // Référence pour le conteneur
 
   useEffect(() => {
+    if (localStorage.getItem('cocktail')) {
+      const cocktailName = localStorage.getItem('cocktail');
+      const cocktail = cocktails.find((item) => item.name === cocktailName);
+
+      if (cocktail) {
+        setSelectedCocktail({
+          cocktail: cocktail.ingredients,
+        });
+      } else {
+        console.error('Cocktail not found !');
+      }
+    }
+
     // Focus sur le conteneur au montage
     if (containerRef.current) {
       containerRef.current.focus();
     }
   }, []);
 
+  const sendCocktailRecipeToMachine = async () => {
+    try {
+      if (!selectedCocktail) {
+        console.error('No cocktail selected');
+        return false;
+      }
+
+      const response = await sendCocktailRecipe(selectedCocktail);
+
+      if (response) {
+        return true;
+      }
+    } catch (error) {
+      console.log('Erreur :' + error);
+      setErrorPopupVisible(true);
+      return false;
+    }
+  };
+
   // Gestion du remplissage du verre : redirection après 10 secondes
-  const handleClick = () => {
-    setIsCupFilled(true);
-    setTimeout(() => {
-      router.push('/bonus');
-    }, 10000);
+  const handleClick = async () => {
+    const isDone = await sendCocktailRecipeToMachine();
+    if (isDone) {
+      setIsCupFilled(true);
+      setTimeout(() => {
+        router.push('/bonus');
+      }, 10000);
+    }
+  };
+
+  const handleCloseErrorPopup = () => {
+    setErrorPopupVisible(false);
   };
 
   // Gestion des événements clavier
@@ -41,7 +85,11 @@ export default function ServeDrinks() {
     // Gestion des événements clavier : touche entrée
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === PLAYER_KEYS.player1.confirmationButton) {
-        handleClick();
+        if (!isErrorPopupVisible) {
+          handleClick();
+        } else {
+          handleCloseErrorPopup();
+        }
         enterSound.play(); // Jouer le son pour la touche entrée
       }
     };
@@ -70,6 +118,24 @@ export default function ServeDrinks() {
 
   return (
     <main ref={containerRef}>
+      {isErrorPopupVisible && (
+        <div className='popup' style={{ display: 'flex' }}>
+          <div className='popup-content'>
+            <h2>Une erreur est survenue</h2>
+            <p className='popup-message'>
+              La connexion entre la machine à cocktail et l'application semble
+              compromise. Veuillez réessayer.
+            </p>
+            <button
+              className='brc-buttons active'
+              onClick={handleCloseErrorPopup}
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className='brc-background'></div>
       <div className='brc-filling-container'>
         <div className='brc-drink-info'>
