@@ -9,9 +9,11 @@ int status = WL_IDLE_STATUS; // Wi-Fi status
 
 WiFiServer server(3000);
 
-const int pump1Pin = 9;
-const int pump2Pin = 10;
-const int pump3Pin = 11;
+const int pump1Pin = 7;
+const int pump2Pin = 8;
+const int pump3Pin = 9;
+const float flowRatePerMin = 80.0;                     // ml/min
+const float flowRatePerSecond = flowRatePerMin / 60.0; // ml/sec
 
 void setup()
 {
@@ -92,22 +94,28 @@ void loop()
             else
             {
                 // Access values from the "cocktail" object
-                int pump1Duration = (int)parsed["cocktail"]["1"];
-                int pump2Duration = (int)parsed["cocktail"]["2"];
-                int pump3Duration = (int)parsed["cocktail"]["3"];
+                int pump1Milliliters = (int)parsed["cocktail"]["1"];
+                int pump2Milliliters = (int)parsed["cocktail"]["2"];
+                int pump3Milliliters = (int)parsed["cocktail"]["3"];
 
+                int pump1Duration = calculatePumpDuration(pump1Milliliters);
+                int pump2Duration = calculatePumpDuration(pump2Milliliters);
+                int pump3Duration = calculatePumpDuration(pump3Milliliters);
+
+                // Log received data
+                Serial.println("\n✅ Données reçues:");
+                Serial.print("- Pompe 1 : ");
+                Serial.println(pump1Duration);
+                Serial.print("- Pompe 2 : ");
+                Serial.println(pump2Duration);
+                Serial.print("- Pompe 3 : ");
+                Serial.println(pump3Duration);
+
+                // Control the pumps
+                Serial.println("\n");
                 controlPump(pump1Pin, pump1Duration);
                 controlPump(pump2Pin, pump2Duration);
                 controlPump(pump3Pin, pump3Duration);
-
-                // Log received data
-                Serial.println("\n✅ Received data:");
-                Serial.print("Pompe 1: ");
-                Serial.println(pump1Duration);
-                Serial.print("Pompe 2: ");
-                Serial.println(pump2Duration);
-                Serial.print("Pompe 3: ");
-                Serial.println(pump3Duration);
 
                 // Respond to client
                 client.println("HTTP/1.1 200 OK");
@@ -179,16 +187,25 @@ void controlPump(int pumpPin, int pumpingDuration)
     {
         // Turn the pump ON (example: set pin HIGH)
         digitalWrite(pumpPin, HIGH);
-        Serial.print("Pump on pin ");
+        Serial.print("🫗 Boisson n°");
         Serial.print(pumpPin);
-        Serial.println(" is ON");
+        Serial.println(" est en distribution.");
 
         delay(pumpingDuration);
 
         // Turn the pump OFF (example: set pin LOW)
         digitalWrite(pumpPin, LOW);
-        Serial.print("Pump on pin ");
+        Serial.print("🛑 Boisson n°");
         Serial.print(pumpPin);
-        Serial.println(" is OFF");
+        Serial.println(" a fini de distribuer.");
     }
+}
+
+// Function to convert mL to milliseconds
+int calculatePumpDuration(int volumeInML)
+{
+    // Calculate the duration in milliseconds
+    float durationInMilliseconds = (volumeInML / flowRatePerSecond) * 1000.0;
+
+    return (int)durationInMilliseconds;
 }
