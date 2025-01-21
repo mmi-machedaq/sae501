@@ -13,6 +13,7 @@ import { sendCocktailRecipe } from '@/services/sendCocktailRecipe';
 import { PLAYER_KEYS } from '@/utils/constants/keys';
 
 export default function ServeDrinks() {
+  const [isFillingTheCup, setIsFillingTheCup] = useState(false);
   const [isErrorPopupVisible, setErrorPopupVisible] = useState(false);
   const [selectedCocktail, setSelectedCocktail] = useState({}); // État pour le cocktail sélectionné : initialisé à un objet vide
   const [isCupFilled, setIsCupFilled] = useState(false); // État pour le remplissage du verre : initialisé à faux
@@ -60,17 +61,17 @@ export default function ServeDrinks() {
 
   // Gestion du remplissage du verre : redirection après 10 secondes
   const handleClick = async () => {
-    const isDone = await sendCocktailRecipeToMachine();
-    if (isDone) {
+    if (!isFillingTheCup) {
+      setIsFillingTheCup(true);
       setIsCupFilled(true);
-      setTimeout(() => {
-        router.push('/bonus');
-      }, 10000);
+      await sendCocktailRecipeToMachine();
+      router.push('/bonus');
     }
   };
 
   const handleCloseErrorPopup = () => {
     setErrorPopupVisible(false);
+    router.push('/');
   };
 
   // Gestion des événements clavier
@@ -90,7 +91,9 @@ export default function ServeDrinks() {
         } else {
           handleCloseErrorPopup();
         }
-        enterSound.play(); // Jouer le son pour la touche entrée
+        if (!isFillingTheCup) {
+          enterSound.play(); // Jouer le son pour la touche entrée
+        }
       }
     };
 

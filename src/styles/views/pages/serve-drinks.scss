@@ -87,7 +87,7 @@
       transition: transform 0.3s $ease-out;
 
       &.active {
-        animation: wave 10s;
+        animation: wave 60s forwards;
       }
 
       @keyframes wave {
