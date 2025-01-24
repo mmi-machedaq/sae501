@@ -65,7 +65,10 @@ export default function ServeDrinks() {
       setIsFillingTheCup(true);
       setIsCupFilled(true);
       await sendCocktailRecipeToMachine();
-      router.push('/bonus');
+
+      if (!isErrorPopupVisible) {
+        router.push('/bonus');
+      }
     }
   };
 
