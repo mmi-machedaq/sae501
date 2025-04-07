@@ -1,12 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { LiaCocktailSolid } from 'react-icons/lia';
 import slugify from 'slugify';
 
-import '@/styles/views/pages/home.scss';
 import '@/styles/views/pages/game-choice.scss';
+import '@/styles/views/pages/home.scss';
 
 import games from '@/data/games.json';
 

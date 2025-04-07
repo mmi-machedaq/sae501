@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 
 import '../styles/global.scss';
 
+import ConnectionStatus from '@/components/shared/ConnectionStatus';
+
 import { Bambino } from '@/fonts';
 
 export const metadata: Metadata = {
@@ -17,7 +19,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='fr'>
-      <body className={Bambino.variable}>{children}</body>
+      <body className={Bambino.variable}>
+        <ConnectionStatus />
+        {children}
+      </body>
     </html>
   );
 }

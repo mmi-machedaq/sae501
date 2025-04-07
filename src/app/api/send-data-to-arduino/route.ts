@@ -6,6 +6,18 @@ export async function POST(request: NextRequest) {
     // Parse JSON data received from the frontend
     const data = await request.json();
 
+    if (
+      process.env.ARDUINO_IP === undefined ||
+      process.env.ARDUINO_PORT === undefined
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            'Missing ARDUINO_IP and/or ARDUINO_PORT in environment variables',
+        },
+        { status: 500 },
+      );
+    }
     // Arduino server URL (replace with your Arduino's IP address)
     const arduinoUrl = `http://${process.env.ARDUINO_IP}:${process.env.ARDUINO_PORT}`;
 

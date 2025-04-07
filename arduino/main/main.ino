@@ -91,6 +91,24 @@ void loop()
                 client.println();
                 client.println("{\"error\":\"Invalid JSON\"}");
             }
+            else if (parsed.hasOwnProperty("test") && (bool)parsed["test"] == true)
+            {
+                Serial.println("🧪 Test flag detected, returning true");
+
+                client.println("HTTP/1.1 200 OK");
+                client.println("Content-Type: application/json");
+                client.println();
+                client.println("{\"status\":true}");
+            }
+            else if (parsed.hasOwnProperty("test"))
+            {
+                Serial.println("🧪 Test flag detected, but false");
+
+                client.println("HTTP/1.1 200 OK");
+                client.println("Content-Type: application/json");
+                client.println();
+                client.println("{\"status\":false}");
+            }
             else
             {
                 // Access values from the "cocktail" object
