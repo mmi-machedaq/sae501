@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LiaCocktailSolid } from 'react-icons/lia';
 
 import '@/styles/views/pages/home.scss';
@@ -22,10 +22,11 @@ export default function ServeDrinks() {
   const [gameWinner, setGameWinner] = useState<string | null>(null);
   const [gameLoser, setGameLoser] = useState<string | null>(null);
   const [player2Status, setPlayer2Status] = useState<string>('Égalité'); // Default value
+  const [cocktailName, setCocktailName] = useState<string | null>('');
 
   useEffect(() => {
     if (localStorage.getItem('cocktail')) {
-      const cocktailName = localStorage.getItem('cocktail');
+      setCocktailName(localStorage.getItem('cocktail'));
       const cocktail = cocktails.find((item) => item.name === cocktailName);
 
       if (cocktail) {
@@ -157,9 +158,9 @@ export default function ServeDrinks() {
       <div className='brc-filling-container'>
         <div className='brc-drink-info'>
           <h2 className='drink-name'>Joueur 2</h2>
-          {localStorage && (
+          {selectedCocktail && (
             <span>
-              <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
+              <LiaCocktailSolid /> {cocktailName}
             </span>
           )}
         </div>

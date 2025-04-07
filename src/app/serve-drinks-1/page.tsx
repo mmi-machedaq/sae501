@@ -1,12 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LiaCocktailSolid } from 'react-icons/lia';
 
 import '@/styles/views/pages/home.scss';
-import '@/styles/views/pages/serve-drinks.scss';
 import '@/styles/views/pages/popup.scss';
+import '@/styles/views/pages/serve-drinks.scss';
 
 import cocktails from '@/data/cocktails.json';
 
@@ -24,6 +24,7 @@ export default function ServeDrinks() {
   const [gameWinner, setGameWinner] = useState<string | null>(null);
   const [gameLoser, setGameLoser] = useState<string | null>(null);
   const [player1Status, setPlayer1Status] = useState<string>('Égalité'); // Default value
+  const [cocktailName, setCocktailName] = useState<string | null>('');
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.pageSound) {
@@ -34,7 +35,7 @@ export default function ServeDrinks() {
 
   useEffect(() => {
     if (localStorage.getItem('cocktail')) {
-      const cocktailName = localStorage.getItem('cocktail');
+      setCocktailName(localStorage.getItem('cocktail'));
       const cocktail = cocktails.find((item) => item.name === cocktailName);
 
       if (cocktail) {
@@ -197,9 +198,9 @@ export default function ServeDrinks() {
       <div className='brc-filling-container'>
         <div className='brc-drink-info'>
           <h2 className='drink-name'>Joueur 1</h2>
-          {localStorage && (
+          {selectedCocktail && (
             <span>
-              <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
+              <LiaCocktailSolid /> {cocktailName}
             </span>
           )}
         </div>
