@@ -12,6 +12,7 @@ import cocktails from '@/data/cocktails.json';
 
 import { sendCocktailRecipe } from '@/services/sendCocktailRecipe';
 import { PLAYER_KEYS } from '@/utils/constants/keys';
+import { Cocktail } from '@/utils/interfaces/main.interface';
 
 export default function ServeDrinks() {
   const [isFillingTheCup, setIsFillingTheCup] = useState(false);
@@ -25,6 +26,7 @@ export default function ServeDrinks() {
   const [gameLoser, setGameLoser] = useState<string | null>(null);
   const [player1Status, setPlayer1Status] = useState<string>('Égalité'); // Default value
   const [cocktailName, setCocktailName] = useState<string | null>('');
+  const [cocktailData, setCocktailData] = useState<Cocktail | undefined>();
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.pageSound) {
@@ -36,14 +38,12 @@ export default function ServeDrinks() {
   useEffect(() => {
     if (localStorage.getItem('cocktail')) {
       setCocktailName(localStorage.getItem('cocktail'));
-      const cocktail = cocktails.find((item) => item.name === cocktailName);
+      setCocktailData(cocktails.find((item) => item.name === cocktailName));
 
-      if (cocktail) {
+      if (cocktailData) {
         setSelectedCocktail({
-          cocktail: cocktail.ingredients,
+          cocktail: cocktailData.ingredients,
         });
-      } else {
-        console.error('Cocktail not found !');
       }
     }
 
@@ -51,7 +51,7 @@ export default function ServeDrinks() {
     if (containerRef.current) {
       containerRef.current.focus();
     }
-  }, []);
+  }, [cocktailData, cocktailName]);
 
   const sendCocktailRecipeToMachine = async () => {
     try {

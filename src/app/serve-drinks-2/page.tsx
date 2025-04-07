@@ -33,8 +33,6 @@ export default function ServeDrinks() {
         setSelectedCocktail({
           cocktail: cocktail.ingredients,
         });
-      } else {
-        console.error('Cocktail not found !');
       }
     }
 
@@ -42,7 +40,7 @@ export default function ServeDrinks() {
     if (containerRef.current) {
       containerRef.current.focus();
     }
-  }, []);
+  }, [cocktailName]);
 
   const sendCocktailRecipeToMachine = async () => {
     try {
