@@ -29,3 +29,4 @@ yarn run start:prod
 3. Le mettre dans le fichier .env
 4. Brancher l'alimentation principale et l'alimentation de l'arduino
 5. Lancer le serveur : yarn start:dev ou yarn build puis yarn start:prod
+6. Démarrer le logiciel AntiMicroX pour avoir accès aux joysticks
