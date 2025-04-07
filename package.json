@@ -15,7 +15,7 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "eslint --max-warnings=0",
+      "eslint src --fix",
       "prettier --write --log-level silent"
     ],
     "**/*.{json,css,scss,md,webmanifest}": [

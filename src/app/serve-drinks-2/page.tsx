@@ -19,6 +19,9 @@ export default function ServeDrinks() {
   const [isCupFilled, setIsCupFilled] = useState(false); // État pour le remplissage du verre : initialisé à faux
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null); // Référence pour le conteneur
+  const [gameWinner, setGameWinner] = useState<string | null>(null);
+  const [gameLoser, setGameLoser] = useState<string | null>(null);
+  const [player2Status, setPlayer2Status] = useState<string>('Égalité'); // Default value
 
   useEffect(() => {
     if (localStorage.getItem('cocktail')) {
@@ -100,27 +103,35 @@ export default function ServeDrinks() {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', handleKeyDown);
+    }
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('keydown', handleKeyDown);
+      }
     };
   });
 
-  // Récupérer les informations depuis le localStorage
-  const gameWinner = localStorage.getItem('gameWinner');
-  const gameLoser = localStorage.getItem('gameLoser');
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const winner = localStorage.getItem('gameWinner');
+      const loser = localStorage.getItem('gameLoser');
 
-  // Déterminer le statut du joueur 1
-  let player2Status;
+      setGameWinner(winner);
+      setGameLoser(loser);
 
-  if (gameWinner === 'Player 2') {
-    player2Status = 'Gagnant';
-  } else if (gameLoser === 'Player 2') {
-    player2Status = 'Perdant';
-  } else {
-    player2Status = 'Égalité';
-  }
+      // Determine Player 1 status
+      if (winner === 'Player 2') {
+        setPlayer2Status('Gagnant');
+      } else if (loser === 'Player 2') {
+        setPlayer2Status('Perdant');
+      } else {
+        setPlayer2Status('Égalité');
+      }
+    }
+  }, []);
 
   return (
     <main ref={containerRef}>
@@ -146,9 +157,11 @@ export default function ServeDrinks() {
       <div className='brc-filling-container'>
         <div className='brc-drink-info'>
           <h2 className='drink-name'>Joueur 2</h2>
-          <span>
-            <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
-          </span>
+          {localStorage && (
+            <span>
+              <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
+            </span>
+          )}
         </div>
         <p className='brc-filling-container__instructions'>
           Placez le verre du joueur 2 ({player2Status}) sous la machine à

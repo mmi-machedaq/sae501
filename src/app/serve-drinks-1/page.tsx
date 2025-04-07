@@ -21,12 +21,16 @@ export default function ServeDrinks() {
   const [isCupFilled, setIsCupFilled] = useState(false); // État pour le remplissage du verre : initialisé à faux
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null); // Référence pour le conteneur
+  const [gameWinner, setGameWinner] = useState<string | null>(null);
+  const [gameLoser, setGameLoser] = useState<string | null>(null);
+  const [player1Status, setPlayer1Status] = useState<string>('Égalité'); // Default value
 
-  // Stop the sound
-  if (window.pageSound) {
-    window.pageSound.pause();
-    window.pageSound.currentTime = 0;
-  }
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.pageSound) {
+      window.pageSound.pause();
+      window.pageSound.currentTime = 0;
+    }
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem('cocktail')) {
@@ -87,7 +91,6 @@ export default function ServeDrinks() {
     }
 
     // Importation des fichiers audio
-
     const enterSound = new Audio('/sounds/press.mp3');
 
     // Gestion des événements clavier : touche entrée
@@ -108,27 +111,35 @@ export default function ServeDrinks() {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', handleKeyDown);
+    }
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('keydown', handleKeyDown);
+      }
     };
   });
 
-  // Récupérer les informations depuis le localStorage
-  const gameWinner = localStorage.getItem('gameWinner');
-  const gameLoser = localStorage.getItem('gameLoser');
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const winner = localStorage.getItem('gameWinner');
+      const loser = localStorage.getItem('gameLoser');
 
-  // Déterminer le statut du joueur 1
-  let player1Status;
+      setGameWinner(winner);
+      setGameLoser(loser);
 
-  if (gameWinner === 'Player 1') {
-    player1Status = 'Gagnant';
-  } else if (gameLoser === 'Player 1') {
-    player1Status = 'Perdant';
-  } else {
-    player1Status = 'Égalité';
-  }
+      // Determine Player 1 status
+      if (winner === 'Player 1') {
+        setPlayer1Status('Gagnant');
+      } else if (loser === 'Player 1') {
+        setPlayer1Status('Perdant');
+      } else {
+        setPlayer1Status('Égalité');
+      }
+    }
+  }, []);
 
   // Son pour l'apparition du pop-up
   useEffect(() => {
@@ -186,9 +197,11 @@ export default function ServeDrinks() {
       <div className='brc-filling-container'>
         <div className='brc-drink-info'>
           <h2 className='drink-name'>Joueur 1</h2>
-          <span>
-            <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
-          </span>
+          {localStorage && (
+            <span>
+              <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
+            </span>
+          )}
         </div>
         <p className='brc-filling-container__instructions'>
           Placez le verre du joueur 1 ({player1Status}) sous la machine à

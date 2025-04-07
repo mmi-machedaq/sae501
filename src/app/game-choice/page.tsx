@@ -15,17 +15,25 @@ import { PLAYER_KEYS } from '@/utils/constants/keys';
 export default function GameChoice() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0); // État pour l'index actif
+  const [cocktailName, setCocktailName] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null); // Référence pour le conteneur
 
   // Présence du cocktail dans le localStorage : redirection si absent
   useEffect(() => {
-    if (
-      !localStorage.getItem('cocktail') ||
-      localStorage.getItem('cocktail') === 'undefined'
-    ) {
-      router.push('/');
+    if (typeof window !== 'undefined') {
+      const cocktail = localStorage.getItem('cocktail');
+      if (!cocktail || cocktail === 'undefined') {
+        router.push('/');
+      }
     }
   }, [router]);
+
+  // Fetch 'cocktail' from localStorage after mounting
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCocktailName(localStorage.getItem('cocktail'));
+    }
+  }, []);
 
   // Focus sur le conteneur au montage
   useEffect(() => {
@@ -37,8 +45,12 @@ export default function GameChoice() {
   // Nettoyage du localStorage au montage
   const handleGameChoice = useCallback(
     (gameName: string) => {
-      localStorage.setItem('game', gameName);
-      router.push(`/games/${slugify(gameName, { lower: true })}`);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('game', gameName);
+        router.push(`/games/${slugify(gameName, { lower: true })}`);
+      } else {
+        router.push('/');
+      }
     },
     [router],
   );
@@ -86,9 +98,11 @@ export default function GameChoice() {
       <div className='brc-container'>
         <div className='brc-drink-info'>
           <h2>Choix du jeu</h2>
-          <span>
-            <LiaCocktailSolid /> {localStorage.getItem('cocktail')}
-          </span>
+          {cocktailName && (
+            <span>
+              <LiaCocktailSolid /> {cocktailName}
+            </span>
+          )}
         </div>
         <p className='brc-container__instructions'>
           Le perdant obtiendra un cocktail plus corsé :)

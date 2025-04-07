@@ -24,7 +24,8 @@ yarn run start:prod
 
 ## Steps to start the whole engine
 
-1. Récupérer l’IP de l’Arduino via le serial port
-2. Le mettre dans le fichier .env
-3. Brancher l'alimentation principale et l'alimentation de l'arduino
-4. Lancer le serveur : yarn start:dev
+1. Connecter le serveur et l'Arduino au même réseau (partage de connexion). Éditer le fichier /arduino/secrets.h si besoin.
+1. Récupérer l’IP de l’Arduino via le Serial Port
+1. Le mettre dans le fichier .env
+1. Brancher l'alimentation principale et l'alimentation de l'arduino
+1. Lancer le serveur : yarn start:dev ou yarn start:prod
