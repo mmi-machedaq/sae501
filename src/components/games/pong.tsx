@@ -105,14 +105,13 @@ const Pong = () => {
       );
     };
 
-    //ajout sound design
-    const soundBip = new Audio('/sounds/bip.mp3');
-    //const soundBuzz = new Audio('/sounds/buzz.mp3');
-
     // Update ball position
     const updateBallPosition = () => {
       ballX += ballSpeedX;
       ballY += ballSpeedY;
+
+      //ajout sound design
+      const soundBip = new Audio('/sounds/bip.mp3');
 
       if (ballY <= 0 || ballY >= canvasHeight) {
         ballSpeedY *= -1;
@@ -193,14 +192,12 @@ const Pong = () => {
 
     // Check for game end
     const checkGameEnd = () => {
-      if (timeRemaining <= 0 && !gameEnded) {
+      if (timeRemaining <= 0) {
         isOvertime = true;
-        if (player1Score !== player2Score) {
-          clearInterval(timerInterval!); // Stop the timer
-          setGameEnded(true);
-          storeScores();
-          router.push('/serve-drinks-1');
-        }
+        clearInterval(timerInterval!); // Stop the timer
+        setGameEnded(true);
+        storeScores();
+        router.push('/serve-drinks-1');
       }
     };
 
@@ -239,10 +236,6 @@ const Pong = () => {
       // Stocker les résultats dans le localStorage
       localStorage.setItem('gameWinner', gameWinner);
       localStorage.setItem('gameLoser', gameLoser);
-
-      // Debugging : afficher le gagnant et le perdant dans la console
-      console.log('Game Winner:', gameWinner);
-      console.log('Game Loser:', gameLoser);
     };
 
     // Appeler la fonction pour déterminer et afficher le gagnant
@@ -299,9 +292,9 @@ const Pong = () => {
   return (
     <div>
       <div className='score'>
-        <p>P1 Score: {score.player1}</p>
-        <p>Timer: {timer.timerdisplay}s</p>
-        <p>P2 Score: {score.player2}</p>
+        <p>Joueur 1 : {score.player1}</p>
+        <p>Temps : {timer.timerdisplay}s</p>
+        <p>Joueur 2 : {score.player2}</p>
       </div>
       <canvas id='pongCanvas' width={1000} height={600}></canvas>
     </div>
