@@ -7,27 +7,45 @@ graph TD
     Player2((Joueur 2))
   end
 
-  subgraph Frontend [Interface de jeu - Next.js (XJS)]
-    UI[UI Jeu / Sélection de boisson]
+  subgraph Components [Composants]
+    TestConnection[🔌 Test de connexion à l'Arduino]
+  end
+
+  subgraph Frontend [Interface de jeu Next.js]
+    Serve[🧪 Remplissage des verres]
+    SelectDrink[🍸 Sélection de cocktails]
+    SelectGame[🎮 Sélection du jeu]
+    Game[🎮 Jeu]
   end
 
   subgraph Backend [Serveur Next.js]
-    API[API / Logic métier]
+    API[POST /send-data-to-arduino]
   end
 
-  subgraph Arduino [Arduino R4 (Serveur Wi-Fi)]
-    R1[/Route: /test/]
-    R2[/Route: /drink/]
-    Pumps[Contrôle Pompes + Capteurs]
+  subgraph Arduino [Arduino R4 - Serveur Wi-Fi]
+    Pumps[🫗 Contrôle des pompes]
+    TestResponse[🔄 Test de connexion]
   end
 
-  Player1 --> UI
-  Player2 --> UI
-  UI --> API
-  API -->|POST recette + ID boisson| R2
-  R2 --> Pumps
-  Pumps -->|Succès / erreur (JSON)| API
-  API --> UI
+  subgraph Data [Dossier de données data/]
+    GameData[🎮 games.json]
+    DrinksData[🥤 drinks.json]
+    CocktailData[🍹 cocktails.json]
+  end
 
-
+  Player1 --> Frontend
+  Player2 --> Frontend
+  API -->|Renvoie status: true/false| Serve
+  Frontend -->|Charge et affiche le composant| TestConnection
+  TestConnection -->|POST test: true| API
+  API -->|Renvoie status: success/error| TestConnection
+  TestResponse -->|Renvoie status: true/false| API
+  API -->|POST test: true| TestResponse
+  API -->|POST recette du cocktail| Pumps
+  Pumps -->|Renvoie succès/erreur| API
+  SelectDrink -->|Charge drinks.json| DrinksData
+  SelectGame -->|Charge games.json| GameData
+  Game -->|Charge drinks.json| DrinksData
+  Serve -->|Charge cocktails.json| CocktailData
+  Serve -->|POST recette du cocktail| API
 ```
