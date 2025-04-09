@@ -1,13 +1,13 @@
-# Diagramme de flux fonctionnel – Jeu Barcade Boissons
+# Diagramme de flux fonctionnel
 
 ```mermaid
 flowchart TD
-  A[👥 Joueur entre dans l'interface] --> B[🎮 Joue à un mini-jeu]
-  B --> C[🍹 Choisit une boisson]
-  C --> D[📡 L'app Next.js prépare la requête POST]
-  D --> E[🔌 Envoie vers Arduino R4 via IP (Wi-Fi)]
-  E --> F[🧠 Arduino analyse la requête / recette]
-  F --> G[⚙️ Pompe(s) distribuent la boisson]
-  G --> H[📨 Arduino répond à l'app (JSON)]
-  H --> I[✅ Affiche succès ou erreur à l'utilisateur]
-```
+  A[👥 Joueurs entrent dans l'interface] --> B[🍹 Choisissent un cocktail]
+  B --> C[🎮 Choisissent un jeu]
+  C --> D[🕹️ Jouent au jeu]
+  D --> E[📡 Une fois terminé, l'app Next.js prépare la requête POST]
+  E --> F[🔌 Envoie vers Arduino R4 via IP]
+  F --> G[🧠 Arduino analyse la requête / recette]
+  G --> H[⚙️ Pompes distribuent la boisson]
+  H --> I[📨 Arduino répond à l'app]
+  I --> J[✅ Affiche succès ou erreur à l'utilisateur]
